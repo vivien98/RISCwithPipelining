@@ -28,7 +28,7 @@ use ieee.numeric_std.all;
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 
-  component memory is
+  component memory1 is
     
     port (
 	  clk         : in   std_logic;
@@ -65,7 +65,7 @@ ir1 <= membr1 & membr2;
 	 c        => carry1,
 	 z        =>  zero1  );
 
- code_mem: memory
+ code_mem: memory1
     
     port map (
 	   clk       => clk ,

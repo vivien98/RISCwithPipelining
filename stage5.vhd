@@ -43,7 +43,7 @@ use ieee.numeric_std.all;
 
  architecture behave of stage5 is
 
-   component memory is
+   component memory2 is
     
     port (
 	  clk         : in   std_logic;
@@ -65,7 +65,7 @@ signal membr1,membr2:std_logic_vector (7 downto 0);
 
 mem_out <= membr1 & membr2;
 
- data_mem: memory
+ data_mem: memory2
     
     port map (
 	   clk       => clk ,
