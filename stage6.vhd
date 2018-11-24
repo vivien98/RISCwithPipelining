@@ -20,6 +20,8 @@ use ieee.numeric_std.all;
 	   pc_old_i		: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
+	   reg_wr1 : out std_logic;
+	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic
 		
      );
@@ -28,54 +30,54 @@ use ieee.numeric_std.all;
 
  architecture behave of stage6 is
 
-	component reg_file is
+	--component reg_file is
     
-    port (
-	   clk        : in   std_logic;
-	   rst        : in   std_logic;
-	   wr         : in   std_logic;
-	   rf_a1      : in  std_logic_vector(2 downto 0);
-	   rf_a2      : in  std_logic_vector(2 downto 0);
-	   rf_a3      : in  std_logic_vector(2 downto 0);
-	   rf_d1      : out  std_logic_vector(15 downto 0);
-	   rf_d2      : out  std_logic_vector(15 downto 0);
-	   rf_d3      : in  std_logic_vector(15 downto 0);
-		Reg7 : in std_logic_vector(15 downto 0)
-     );
+ --   port (
+	--   clk        : in   std_logic;
+	--   rst        : in   std_logic;
+	--   wr         : in   std_logic;
+	--   rf_a1      : in  std_logic_vector(2 downto 0);
+	--   rf_a2      : in  std_logic_vector(2 downto 0);
+	--   rf_a3      : in  std_logic_vector(2 downto 0);
+	--   rf_d1      : out  std_logic_vector(15 downto 0);
+	--   rf_d2      : out  std_logic_vector(15 downto 0);
+	--   rf_d3      : in  std_logic_vector(15 downto 0);
+	--	Reg7 : in std_logic_vector(15 downto 0)
+ --    );
 		
-  end component ;
+ -- end component ;
 
-signal rrf_d3,r7,rf_d1,rf_d2:std_logic_vector (15 downto 0);
-signal rf_a1,rf_a2: std_logic_vector(2 downto 0);
-signal reg_wr1 : std_logic;
 
  begin
 
 reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)); 		
 
- reg_writing: reg_file
+ --reg_writing: reg_file
     
-    port map (
-	   clk        => clk,
-	   rst        => rst,
-	   wr         => reg_wr1,
-	   rf_a1      => rf_a1,
-	   rf_a2      => rf_a2,
-	   rf_a3      => reg_a_adr_in,
-	   rf_d1      => rf_d1,
-	   rf_d2      => rf_d2,
-	   rf_d3      => rrf_d3,
-	   Reg7 => R7
-     );
+ --   port map (
+	--   clk        => clk,
+	--   rst        => rst,
+	--   wr         => reg_wr1,
+	--   rf_a1      => rf_a1,
+	--   rf_a2      => rf_a2,
+	--   rf_a3      => reg_a_adr_in,
+	--   rf_d1      => rf_d1,
+	--   rf_d2      => rf_d2,
+	--   rf_d3      => rrf_d3,
+	--   Reg7 => R7
+ --    );
+
+  rrf_d3 <= stage_5_out_6 when reg_inp_data_ctl='0' else
+          pc_old_i when reg_inp_data_ctl='1';
 
  stg6:process(clk)
  begin
  if rising_edge(clk) then
 
- 	 case reg_inp_data_ctl is
-		when '0' =>  rrf_d3 <= stage_5_out_6;
-		when others =>  rrf_d3 <= pc_old_i;
-	 end case;
+ 	-- case reg_inp_data_ctl is
+		--when '0' =>  rrf_d3 <= stage_5_out_6;
+		--when others =>  rrf_d3 <= pc_old_i;
+	 --end case;
 
 	 if(valid_in='0') then
 	 	valid_out <= '0';

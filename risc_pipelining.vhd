@@ -84,6 +84,9 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
 
+	   rf_d1 : in std_logic_vector(15 downto 0);
+	   rf_d2: in std_logic_vector(15 downto 0);
+
 	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
@@ -111,6 +114,8 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
+
+	   rf_a2: out std_logic_vector(2 downto 0);
 
 	   jlr_yes_o : out std_logic;
 	   beq_jal_yes_o: out std_logic;
@@ -219,20 +224,39 @@ use ieee.numeric_std.all;
 	   pc_old_i		: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
+	   reg_wr1 : out std_logic;
+	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic
 		
      );
 
     end component;
 
+  component reg_file is
+    
+    port (
+	   clk        : in   std_logic;
+	   rst        : in   std_logic;
+	   wr         : in   std_logic;
+	   rf_a1      : in  std_logic_vector(2 downto 0);
+	   rf_a2      : in  std_logic_vector(2 downto 0);
+	   rf_a3      : in  std_logic_vector(2 downto 0);
+	   rf_d1      : out  std_logic_vector(15 downto 0);
+	   rf_d2      : out  std_logic_vector(15 downto 0);
+	   rf_d3      : in  std_logic_vector(15 downto 0);
+		Reg7 : in std_logic_vector(15 downto 0)
+     );
+		
+  end component ;
+
 
 signal  reg_b_val_3,pc_plus_imm_2,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
-signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5 : std_logic_vector(15 downto 0);
+signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7 : std_logic_vector(15 downto 0);
 
 
 signal  imm9_2,imm9_3: std_logic_vector(8 downto 0);
 signal  imm6_2,imm6_3: std_logic_vector(5 downto 0);
-signal  reg_a_addr_2,reg_a_addr_3,reg_a_addr_4,reg_a_addr_5,reg_b_addr_2,reg_c_addr_2: std_logic_vector(2 downto 0);
+signal  reg_a_addr_2,reg_a_addr_3,reg_a_addr_4,reg_a_addr_5,reg_b_addr_2,reg_c_addr_2,rf_a2_3: std_logic_vector(2 downto 0);
 
 signal  pc_control,alu_op_2,alu_op_3,input_alu2_ctl_4_2,input_alu2_ctl_4_3: std_logic_vector(1 downto 0);
 
@@ -241,7 +265,7 @@ signal  carry_yes_2,carry_yes_3,carry_yes_4,carry_yes_5,zero_yes_2,zero_yes_3,ze
 signal  reg_addr2_ctl_3_2,output_ctrl_4_2,output_ctrl_4_3    : std_logic;
 signal  output_ctrl_5_2,output_ctrl_5_3,output_ctrl_5_4,mem_rd_5_2,mem_rd_5_3,mem_rd_5_4           :std_logic;
 signal  reg_wr_6_2,reg_wr_6_3,reg_wr_6_4,reg_wr_6_5,reg_inp_data_ctl_6_2,reg_inp_data_ctl_6_3,reg_inp_data_ctl_6_4,reg_inp_data_ctl_6_5:std_logic;
-signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3 :std_logic;
+signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :std_logic;
 
  
  begin
@@ -309,6 +333,9 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3 :std_logic;
 	   mem_rd_5                   =>  mem_rd_5_2,
 	   reg_wr_6                   =>  reg_wr_6_2,
 
+	   rf_d1                      =>  rf_d1_3,
+	   rf_d2                      =>  rf_d2_3,
+
 	   pc_old_i                   => pc_old_2,
 	   carry_yes_i                => carry_yes_2,
 	   zero_yes_i                 => zero_yes_2,
@@ -336,6 +363,8 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3 :std_logic;
 	   reg_inp_data_ctl_6_o       => reg_inp_data_ctl_6_3,
 	   mem_rd_5_o                 =>  mem_rd_5_3,
 	   reg_wr_6_o                 =>  reg_wr_6_3,
+
+	   rf_a2                      =>  rf_a2_3,
 
 	   jlr_yes_o                  =>  jlr_yes_3,
 	   beq_jal_yes_o              => beq_jal_yes_3,
@@ -440,9 +469,28 @@ port map (
 	   pc_old_i		          =>  pc_old_5,
 	   carry_yes_i            =>   carry_yes_5,
 	   zero_yes_i             =>   zero_yes_5,
+	   reg_wr1                =>   reg_wr1_6,
+	   rrf_d3                 =>   rrf_d3_6,
 	   valid_out              =>   valid_out_6
 	
 );
+
+
+ reg_read_write: reg_file
+    
+    port map (
+	   clk        => clk,
+	   rst        => rst,
+	   wr         => reg_wr1_6,
+	   rf_a1      => reg_b_addr_2,
+	   rf_a2      => rf_a2_3,
+	   rf_a3      => reg_a_addr_5,
+	   rf_d1      => rf_d1_3,
+	   rf_d2      => rf_d2_3,
+	   rf_d3      => rrf_d3_6,
+	   Reg7 => R7
+     );
+
  
  	
  end architecture behave;
