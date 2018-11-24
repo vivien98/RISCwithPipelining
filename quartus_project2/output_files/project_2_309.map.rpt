@@ -1,0 +1,502 @@
+Analysis & Synthesis report for project_2_309
+Sat Nov 24 14:52:00 2018
+Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. User-Specified and Inferred Latches
+  9. Registers Removed During Synthesis
+ 10. Removed Registers Triggering Further Register Optimizations
+ 11. General Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Port Connectivity Checks: "memory:code_mem"
+ 14. Port Connectivity Checks: "alu:pc_alu|sxteenbitsubber:stbsub|sxteenbitadder:adder17"
+ 15. Port Connectivity Checks: "alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder0"
+ 16. Port Connectivity Checks: "alu:pc_alu"
+ 17. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++---------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                              ;
++-----------------------------+---------------------------------------------+
+; Analysis & Synthesis Status ; Successful - Sat Nov 24 14:52:00 2018       ;
+; Quartus Prime Version       ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
+; Revision Name               ; project_2_309                               ;
+; Top-level Entity Name       ; stage1                                      ;
+; Family                      ; MAX V                                       ;
+; Total logic elements        ; 74                                          ;
+; Total pins                  ; 70                                          ;
+; Total virtual pins          ; 0                                           ;
+; UFM blocks                  ; 0 / 1 ( 0 % )                               ;
++-----------------------------+---------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; 5M1270ZT144C5      ;                    ;
+; Top-level entity name                                                      ; stage1             ; project_2_309      ;
+; Family name                                                                ; MAX V              ; Cyclone V          ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                              ; Enable             ; Enable             ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                                        ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 2           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                   ;
++----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                            ; Library ;
++----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------+---------+
+; ../stage1.vhd                    ; yes             ; User VHDL File  ; /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd      ;         ;
+; ../memory.vhd                    ; yes             ; User VHDL File  ; /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd      ;         ;
+; ../alu_project.vhd               ; yes             ; User VHDL File  ; /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd ;         ;
++----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------+---------+
+
+
++-----------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary         ;
++---------------------------------------------+-------+
+; Resource                                    ; Usage ;
++---------------------------------------------+-------+
+; Total logic elements                        ; 74    ;
+;     -- Combinational with no register       ; 33    ;
+;     -- Register only                        ; 25    ;
+;     -- Combinational with a register        ; 16    ;
+;                                             ;       ;
+; Logic element usage by number of LUT inputs ;       ;
+;     -- 4 input functions                    ; 17    ;
+;     -- 3 input functions                    ; 26    ;
+;     -- 2 input functions                    ; 6     ;
+;     -- 1 input functions                    ; 0     ;
+;     -- 0 input functions                    ; 0     ;
+;                                             ;       ;
+; Logic elements by mode                      ;       ;
+;     -- normal mode                          ; 74    ;
+;     -- arithmetic mode                      ; 0     ;
+;     -- qfbk mode                            ; 0     ;
+;     -- register cascade mode                ; 0     ;
+;     -- synchronous clear/load mode          ; 16    ;
+;     -- asynchronous clear/load mode         ; 16    ;
+;                                             ;       ;
+; Total registers                             ; 41    ;
+; I/O pins                                    ; 70    ;
+; Maximum fan-out node                        ; clk   ;
+; Maximum fan-out                             ; 41    ;
+; Total fan-out                               ; 322   ;
+; Average fan-out                             ; 2.24  ;
++---------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                ;
++--------------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+--------------------------------------------------------------+----------------+--------------+
+; Compilation Hierarchy Node     ; Logic Cells ; LC Registers ; UFM Blocks ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Packed LCs ; Full Hierarchy Name                                          ; Entity Name    ; Library Name ;
++--------------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+--------------------------------------------------------------+----------------+--------------+
+; |stage1                        ; 74 (41)     ; 41           ; 0          ; 70   ; 0            ; 33 (0)       ; 25 (25)           ; 16 (16)          ; 0 (0)           ; 0 (0)      ; |stage1                                                      ; stage1         ; work         ;
+;    |alu:pc_alu|                ; 19 (0)      ; 0            ; 0          ; 0    ; 0            ; 19 (0)       ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu                                           ; alu            ; work         ;
+;       |sxteenbitadder:stbadd|  ; 19 (0)      ; 0            ; 0          ; 0    ; 0            ; 19 (0)       ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd                     ; sxteenbitadder ; work         ;
+;          |onebitadder:adder10| ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder10 ; onebitadder    ; work         ;
+;          |onebitadder:adder11| ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder11 ; onebitadder    ; work         ;
+;          |onebitadder:adder12| ; 2 (2)       ; 0            ; 0          ; 0    ; 0            ; 2 (2)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder12 ; onebitadder    ; work         ;
+;          |onebitadder:adder13| ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder13 ; onebitadder    ; work         ;
+;          |onebitadder:adder14| ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder14 ; onebitadder    ; work         ;
+;          |onebitadder:adder15| ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder15 ; onebitadder    ; work         ;
+;          |onebitadder:adder1|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder1  ; onebitadder    ; work         ;
+;          |onebitadder:adder2|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder2  ; onebitadder    ; work         ;
+;          |onebitadder:adder3|  ; 2 (2)       ; 0            ; 0          ; 0    ; 0            ; 2 (2)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder3  ; onebitadder    ; work         ;
+;          |onebitadder:adder4|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder4  ; onebitadder    ; work         ;
+;          |onebitadder:adder5|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder5  ; onebitadder    ; work         ;
+;          |onebitadder:adder6|  ; 2 (2)       ; 0            ; 0          ; 0    ; 0            ; 2 (2)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder6  ; onebitadder    ; work         ;
+;          |onebitadder:adder7|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder7  ; onebitadder    ; work         ;
+;          |onebitadder:adder8|  ; 1 (1)       ; 0            ; 0          ; 0    ; 0            ; 1 (1)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder8  ; onebitadder    ; work         ;
+;          |onebitadder:adder9|  ; 2 (2)       ; 0            ; 0          ; 0    ; 0            ; 2 (2)        ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder9  ; onebitadder    ; work         ;
+;    |memory:code_mem|           ; 14 (14)     ; 0            ; 0          ; 0    ; 0            ; 14 (14)      ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |stage1|memory:code_mem                                      ; memory         ; work         ;
++--------------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+--------------------------------------------------------------+----------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++---------------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                     ;
++----------------------------------------------------+---------------------------+------------------------+
+; Latch Name                                         ; Latch Enable Signal       ; Free of Timing Hazards ;
++----------------------------------------------------+---------------------------+------------------------+
+; memory:code_mem|membr2[0]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr2[1]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr2[6]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr2[7]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr1[0]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr1[2]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr1[4]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; memory:code_mem|membr1[7]                          ; memory:code_mem|membr2[7] ; yes                    ;
+; Number of user-specified and inferred latches = 8  ;                           ;                        ;
++----------------------------------------------------+---------------------------+------------------------+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++---------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                    ;
++-----------------------------------------+---------------------------------------------+
+; Register name                           ; Reason for Removal                          ;
++-----------------------------------------+---------------------------------------------+
+; memory:code_mem|m15[0..6]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m16[3..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m16[2]                  ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m16[1]                  ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m16[0]                  ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m17[7]                  ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m17[0..6]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m18[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m19[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m15[7]                  ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m14[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m13[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m12[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m11[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m10[0..7]               ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m9[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m8[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m7[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m6[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m5[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m4[0..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m3[0,1]                 ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m3[2..7]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m2[0..6]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m2[7]                   ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m1[0..5]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m1[6]                   ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m1[7]                   ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m0[0..3]                ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m0[4]                   ; Stuck at VCC due to stuck port clock_enable ;
+; memory:code_mem|m0[5,6]                 ; Stuck at GND due to stuck port clock_enable ;
+; memory:code_mem|m0[7]                   ; Stuck at VCC due to stuck port clock_enable ;
+; ir[14]~reg0                             ; Stuck at GND due to stuck port data_in      ;
+; ir[13]~reg0                             ; Stuck at GND due to stuck port data_in      ;
+; ir[11]~reg0                             ; Stuck at GND due to stuck port data_in      ;
+; ir[9]~reg0                              ; Stuck at GND due to stuck port data_in      ;
+; ir[5]~reg0                              ; Stuck at GND due to stuck port data_in      ;
+; ir[4]~reg0                              ; Stuck at GND due to stuck port data_in      ;
+; ir[3]~reg0                              ; Stuck at GND due to stuck port data_in      ;
+; ir[2]~reg0                              ; Stuck at GND due to stuck port data_in      ;
+; Total Number of Removed Registers = 168 ;                                             ;
++-----------------------------------------+---------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                      ;
++------------------------+--------------------------------+----------------------------------------+
+; Register name          ; Reason for Removal             ; Registers Removed due to This Register ;
++------------------------+--------------------------------+----------------------------------------+
+; memory:code_mem|m15[5] ; Stuck at GND                   ; ir[5]~reg0                             ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m15[4] ; Stuck at GND                   ; ir[4]~reg0                             ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m15[3] ; Stuck at GND                   ; ir[3]~reg0                             ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m15[2] ; Stuck at GND                   ; ir[2]~reg0                             ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m14[1] ; Stuck at GND                   ; ir[9]~reg0                             ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m14[3] ; Stuck at GND                   ; ir[11]~reg0                            ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m14[5] ; Stuck at GND                   ; ir[13]~reg0                            ;
+;                        ; due to stuck port clock_enable ;                                        ;
+; memory:code_mem|m14[6] ; Stuck at GND                   ; ir[14]~reg0                            ;
+;                        ; due to stuck port clock_enable ;                                        ;
++------------------------+--------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 41    ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 16    ;
+; Number of registers using Asynchronous Clear ; 16    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 25    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |stage1|pc[6]              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+
+
++---------------------------------------------+
+; Port Connectivity Checks: "memory:code_mem" ;
++------+-------+----------+-------------------+
+; Port ; Type  ; Severity ; Details           ;
++------+-------+----------+-------------------+
+; wr   ; Input ; Info     ; Stuck at GND      ;
++------+-------+----------+-------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:pc_alu|sxteenbitsubber:stbsub|sxteenbitadder:adder17"                               ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port     ; Type   ; Severity ; Details                                                                             ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; x[15..1] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; x[0]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; cflag    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; zflag    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder0" ;
++------+-------+----------+-------------------------------------------------------+
+; Port ; Type  ; Severity ; Details                                               ;
++------+-------+----------+-------------------------------------------------------+
+; cin  ; Input ; Info     ; Stuck at GND                                          ;
++------+-------+----------+-------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:pc_alu"                                                                               ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port       ; Type   ; Severity ; Details                                                                             ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; yin[15..1] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; yin[0]     ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; m0         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; m1         ; Input  ; Info     ; Stuck at GND                                                                        ;
+; c          ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; z          ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+    Info: Processing started: Sat Nov 24 14:51:46 2018
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off project_2_309 -c project_2_309
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd
+    Info (12022): Found design unit 1: stage2-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd Line: 30
+    Info (12023): Found entity 1: stage2 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd
+    Info (12022): Found design unit 1: stage3-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd Line: 39
+    Info (12023): Found entity 1: stage3 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd
+    Info (12022): Found design unit 1: stage6-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd Line: 26
+    Info (12023): Found entity 1: stage6 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd
+    Info (12022): Found design unit 1: stage5-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd Line: 36
+    Info (12023): Found entity 1: stage5 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd
+    Info (12022): Found design unit 1: stage4-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd Line: 37
+    Info (12023): Found entity 1: stage4 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd
+    Info (12022): Found design unit 1: stage1-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 25
+    Info (12023): Found entity 1: stage1 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 6
+Info (12021): Found 4 design units, including 2 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/reg_file.vhd
+    Info (12022): Found design unit 1: reg_file-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/reg_file.vhd Line: 25
+    Info (12022): Found design unit 2: reg_file_wrap-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/reg_file.vhd Line: 144
+    Info (12023): Found entity 1: reg_file File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/reg_file.vhd Line: 6
+    Info (12023): Found entity 2: reg_file_wrap File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/reg_file.vhd Line: 125
+Info (12021): Found 4 design units, including 2 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd
+    Info (12022): Found design unit 1: memory-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 22
+    Info (12022): Found design unit 2: memory_wrapper-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 132
+    Info (12023): Found entity 1: memory File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 6
+    Info (12023): Found entity 2: memory_wrapper File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 115
+Info (12021): Found 17 design units, including 8 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd
+    Info (12022): Found design unit 1: project File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 6
+    Info (12022): Found design unit 2: one_bit_reg-WhatDoYouCare File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 42
+    Info (12022): Found design unit 3: eight_bit_reg-dattebayo File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 61
+    Info (12022): Found design unit 4: sxteenbitreg-regis File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 80
+    Info (12022): Found design unit 5: onebitadder-onebit File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 99
+    Info (12022): Found design unit 6: sxteenbitadder-sexteen File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 115
+    Info (12022): Found design unit 7: sxteenbitsubber-sexteensub File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 148
+    Info (12022): Found design unit 8: sxteenbitander-sexteenand File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 167
+    Info (12022): Found design unit 9: alu-finalalu File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 181
+    Info (12023): Found entity 1: one_bit_reg File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 39
+    Info (12023): Found entity 2: eight_bit_reg File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 58
+    Info (12023): Found entity 3: sxteenbitreg File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 77
+    Info (12023): Found entity 4: onebitadder File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 96
+    Info (12023): Found entity 5: sxteenbitadder File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 112
+    Info (12023): Found entity 6: sxteenbitsubber File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 145
+    Info (12023): Found entity 7: sxteenbitander File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 164
+    Info (12023): Found entity 8: alu File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 178
+Info (12127): Elaborating entity "stage1" for the top level hierarchy
+Warning (10541): VHDL Signal Declaration warning at stage1.vhd(46): used implicit default value for signal "membw1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 46
+Warning (10541): VHDL Signal Declaration warning at stage1.vhd(46): used implicit default value for signal "membw2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 46
+Warning (10036): Verilog HDL or VHDL warning at stage1.vhd(47): object "carry1" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 47
+Warning (10036): Verilog HDL or VHDL warning at stage1.vhd(47): object "zero1" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 47
+Warning (10492): VHDL Process Statement warning at stage1.vhd(83): signal "rst" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Info (12128): Elaborating entity "alu" for hierarchy "alu:pc_alu" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 58
+Info (12128): Elaborating entity "sxteenbitadder" for hierarchy "alu:pc_alu|sxteenbitadder:stbadd" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 187
+Info (12128): Elaborating entity "onebitadder" for hierarchy "alu:pc_alu|sxteenbitadder:stbadd|onebitadder:adder0" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 118
+Info (12128): Elaborating entity "sxteenbitsubber" for hierarchy "alu:pc_alu|sxteenbitsubber:stbsub" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 188
+Warning (10036): Verilog HDL or VHDL warning at alu_project.vhd(150): object "cd" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 150
+Warning (10036): Verilog HDL or VHDL warning at alu_project.vhd(150): object "zd" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 150
+Info (12128): Elaborating entity "sxteenbitander" for hierarchy "alu:pc_alu|sxteenbitander:stbnand" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/alu_project.vhd Line: 189
+Info (12128): Elaborating entity "memory" for hierarchy "memory:code_mem" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 68
+Warning (10036): Verilog HDL or VHDL warning at memory.vhd(23): object "m20" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 23
+Warning (10036): Verilog HDL or VHDL warning at memory.vhd(23): object "m21" assigned a value but never read File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 23
+Info (10041): Inferred latch for "membr2[0]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[1]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[2]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[3]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[4]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[5]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[6]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr2[7]" at memory.vhd(62) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+Info (10041): Inferred latch for "membr1[0]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[1]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[2]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[3]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[4]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[5]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[6]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (10041): Inferred latch for "membr1[7]" at memory.vhd(51) File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Info (13025): Duplicate LATCH primitives merged into single LATCH primitive
+    Info (13026): Duplicate LATCH primitive "memory:code_mem|membr2[1]" merged with LATCH primitive "memory:code_mem|membr2[0]" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+    Info (13026): Duplicate LATCH primitive "memory:code_mem|membr1[4]" merged with LATCH primitive "memory:code_mem|membr2[6]" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+    Info (13026): Duplicate LATCH primitive "memory:code_mem|membr1[2]" merged with LATCH primitive "memory:code_mem|membr2[7]" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+    Info (13026): Duplicate LATCH primitive "memory:code_mem|membr1[0]" merged with LATCH primitive "memory:code_mem|membr2[7]" File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+Warning (13012): Latch memory:code_mem|membr2[0] has unsafe behavior File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal pc[0] File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Warning (13012): Latch memory:code_mem|membr2[6] has unsafe behavior File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal pc[0] File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Warning (13012): Latch memory:code_mem|membr2[7] has unsafe behavior File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 62
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal pc[0] File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Warning (13012): Latch memory:code_mem|membr1[7] has unsafe behavior File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/memory.vhd Line: 51
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal pc[0] File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "ir[2]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[3]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[4]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[5]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[9]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[11]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[13]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+    Warning (13410): Pin "ir[14]" is stuck at GND File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 83
+Info (21057): Implemented 144 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 37 input pins
+    Info (21059): Implemented 33 output pins
+    Info (21061): Implemented 74 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 27 warnings
+    Info: Peak virtual memory: 936 megabytes
+    Info: Processing ended: Sat Nov 24 14:52:00 2018
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:32
+
+
