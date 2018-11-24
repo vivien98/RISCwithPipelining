@@ -40,7 +40,7 @@ use ieee.numeric_std.all;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
 	   ir : in std_logic_vector(15 downto 0);
-	   pc_old_i: in std_logic_vector(2 downto 0);
+	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes :  out std_logic;
 	   zero_yes: out std_logic;
 	   pc_old_o		: out std_logic_vector(15 downto 0);
@@ -84,7 +84,7 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
 
-	   pc_old_i: in std_logic_vector(2 downto 0);
+	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
 	   imm6_i : in std_logic_vector(5 downto 0);
@@ -226,6 +226,23 @@ use ieee.numeric_std.all;
     end component;
 
 
+signal  reg_b_val_3,pc_plus_imm_2,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
+signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5 : std_logic_vector(15 downto 0);
+
+
+signal  imm9_2,imm9_3: std_logic_vector(8 downto 0);
+signal  imm6_2,imm6_3: std_logic_vector(5 downto 0);
+signal  reg_a_addr_2,reg_a_addr_3,reg_a_addr_4,reg_a_addr_5,reg_b_addr_2,reg_c_addr_2: std_logic_vector(2 downto 0);
+
+signal  pc_control,alu_op_2,alu_op_3,input_alu2_ctl_4_2,input_alu2_ctl_4_3: std_logic_vector(1 downto 0);
+
+signal  valid_out_1,valid_out_2,valid_out_3,valid_out_4,valid_out_5,valid_out_6: std_logic;
+signal  carry_yes_2,carry_yes_3,carry_yes_4,carry_yes_5,zero_yes_2,zero_yes_3,zero_yes_4,zero_yes_5,p_carry_4,p_carry_5,p_zero_4,p_zero_5 : std_logic;
+signal  reg_addr2_ctl_3_2,output_ctrl_4_2,output_ctrl_4_3    : std_logic;
+signal  output_ctrl_5_2,output_ctrl_5_3,output_ctrl_5_4,mem_rd_5_2,mem_rd_5_3,mem_rd_5_4           :std_logic;
+signal  reg_wr_6_2,reg_wr_6_3,reg_wr_6_4,reg_wr_6_5,reg_inp_data_ctl_6_2,reg_inp_data_ctl_6_3,reg_inp_data_ctl_6_4,reg_inp_data_ctl_6_5:std_logic;
+signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3 :std_logic;
+
  
  begin
  
@@ -237,8 +254,8 @@ use ieee.numeric_std.all;
 	   rst			      => rst,
 	   valid_in           => '1',
 	   pc_control         => "00",
-	   reg_b_val          =>  reg_b_val,
-	   pc_plus_imm        => pc_plus_imm,
+	   reg_b_val          =>  reg_b_val_3,
+	   pc_plus_imm        => pc_plus_imm_2,
 	   ir		          =>   ir_1,
 	   pc_old		      => pc_old_1,
 	   valid_out          => valid_out_1

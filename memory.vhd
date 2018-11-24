@@ -19,7 +19,7 @@ entity memory1 is
   end entity ;
 
 
-architecture behave of memory is
+architecture behave of memory1 is
 signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others => '0');
 --signal m0 :std_logic_vector(7 downto 0) :=  "01010010"; --sw
 --signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
@@ -128,7 +128,7 @@ entity memory2 is
   end entity ;
 
 
-architecture behave of memory is
+architecture behave of memory2 is
 signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others => '0');
 --signal m0 :std_logic_vector(7 downto 0) :=  "01010010"; --sw
 --signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
