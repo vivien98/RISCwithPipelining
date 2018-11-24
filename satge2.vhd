@@ -28,7 +28,8 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : out std_logic;
 	   reg_wr_6 : out std_logic;
 	   jlr_yes : out std_logic;
-	   beq_jal_yes: out std_logic;
+	   beq_yes: out std_logic;
+	   jal_yes: out std_logic;
 	   valid_out : out std_logic
 
 		
@@ -59,6 +60,8 @@ use ieee.numeric_std.all;
 
 imm6_16(5 downto 0) <= ir(5 downto 0);
 imm6_16(15 downto 6) <= (others => '0');
+
+jal_yes <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (not ir(12)));
 
 imm9_se_16(8 downto 0) <= ir(8 downto 0);
 imm9_se_16(15 downto 9) <= (others => '0');
@@ -102,7 +105,7 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      mem_rd_5 <= (not ir(15)) and (ir(14)) and (not ir(13)) and (ir(12));
      reg_wr_6 <= (not ir(14)) or ((not ir(15)) and(not ir(12)));
      reg_inp_data_ctl_6 <= ir(15);
-     beq_jal_yes <= ((ir(15)) and (not ir(13)) and (not ir(12)));
+     beq_yes <= ((ir(15)) and ir(14) and (not ir(13)) and (not ir(12)));
      jlr_yes <= (ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12));
      alu_op(1)<= ir(13);
      alu_op(0) <= ir(15);
