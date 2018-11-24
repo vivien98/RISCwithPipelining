@@ -8,6 +8,8 @@ use ieee.numeric_std.all;
 	   clk     : in  std_logic;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
+	   jlr_yes : in std_logic;
+	   beq_jal_yes: in std_logic;
 
 	   reg_addr2_ctl : in std_logic;
 	   input_alu2_ctl_4 : in std_logic_vector(1 downto 0);
@@ -44,6 +46,9 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
+
+	   jlr_yes_o : out std_logic;
+	   beq_jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic
 		

@@ -1,4 +1,5 @@
 vendor_name = ModelSim
+source_file = 1, /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/risc_pipelining.vhd
 source_file = 1, /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd
 source_file = 1, /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd
 source_file = 1, /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd

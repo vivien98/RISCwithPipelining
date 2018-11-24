@@ -7,7 +7,7 @@ use ieee.numeric_std.all;
     
     port (
 	   clk     : in  std_logic;
-	   rst		: in std_logic;
+	   rst		: in std_logic
 		
      );
 		

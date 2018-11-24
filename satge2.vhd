@@ -27,6 +27,8 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6: out std_logic;
 	   mem_rd_5 : out std_logic;
 	   reg_wr_6 : out std_logic;
+	   jlr_yes : out std_logic;
+	   beq_jal_yes: out std_logic;
 	   valid_out : out std_logic
 
 		
@@ -100,6 +102,9 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      mem_rd_5 <= (not ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12));
      reg_wr_6 <= (not ir(14)) or ((not ir(15)) and(not ir(12)));
      reg_inp_data_ctl_6 <= ir(15);
+     beq_jal_yes <= ((ir(15)) and (not ir(13)) and (not ir(12)));
+     jlr_yes <= (ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12));
+
 
 
  end if;
