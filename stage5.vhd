@@ -72,8 +72,8 @@ mem_out <= membr1 & membr2;
 	   mema      => alu_out_5,
       membr1     => membr1,
 		membr2     => membr2,
-	   membw1     => t2_in(7 downto 0),
-		membw2     => t2_in(15 downto 8),
+	   membw1     => t2_in(15 downto 8),
+		membw2     => t2_in(7 downto 0),
 	   wr        => read_ctrl 
      );
 
