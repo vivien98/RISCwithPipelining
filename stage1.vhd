@@ -85,7 +85,7 @@ ir1 <= membr1 & membr2;
  elsif rising_edge(clk) then
  	 case pc_control is
 		when "00" =>  pc <= pc_out;
-		when "10" =>  pc <= pc_plus_imm;
+		when "01" =>  pc <= pc_plus_imm;
 		when others =>  pc <= reg_b_val;
 	 end case;
 	 if(valid_in='0') then

@@ -59,7 +59,8 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : out std_logic;
 	   reg_wr_6 : out std_logic;
 	   jlr_yes : out std_logic;
-	   beq_jal_yes: out std_logic;
+	   beq_yes: out std_logic;
+	   jal_yes: out std_logic;
 	   valid_out : out std_logic
 
 		
@@ -74,7 +75,8 @@ use ieee.numeric_std.all;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
 	   jlr_yes : in std_logic;
-	   beq_jal_yes: in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   reg_addr2_ctl : in std_logic;
 	   input_alu2_ctl_4 : in std_logic_vector(1 downto 0);
@@ -87,6 +89,7 @@ use ieee.numeric_std.all;
 	   rf_d1 : in std_logic_vector(15 downto 0);
 	   rf_d2: in std_logic_vector(15 downto 0);
 
+	   pc_plus_imm: in std_logic_vector(15 downto 0);
 	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
@@ -116,9 +119,11 @@ use ieee.numeric_std.all;
 	   reg_wr_6_o : out std_logic;
 
 	   rf_a2: out std_logic_vector(2 downto 0);
+	   pc_plus_imm_o: out std_logic_vector(15 downto 0);
 
 	   jlr_yes_o : out std_logic;
-	   beq_jal_yes_o: out std_logic;
+	   beq_yes_o: out std_logic;
+	   jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic
 		
@@ -250,7 +255,7 @@ use ieee.numeric_std.all;
   end component ;
 
 
-signal  reg_b_val_3,pc_plus_imm_2,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
+signal  reg_b_val_3,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
 signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7 : std_logic_vector(15 downto 0);
 
 
@@ -265,19 +270,31 @@ signal  carry_yes_2,carry_yes_3,carry_yes_4,carry_yes_5,zero_yes_2,zero_yes_3,ze
 signal  reg_addr2_ctl_3_2,output_ctrl_4_2,output_ctrl_4_3    : std_logic;
 signal  output_ctrl_5_2,output_ctrl_5_3,output_ctrl_5_4,mem_rd_5_2,mem_rd_5_3,mem_rd_5_4           :std_logic;
 signal  reg_wr_6_2,reg_wr_6_3,reg_wr_6_4,reg_wr_6_5,reg_inp_data_ctl_6_2,reg_inp_data_ctl_6_3,reg_inp_data_ctl_6_4,reg_inp_data_ctl_6_5:std_logic;
-signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :std_logic;
+signal  beq_yes_2,beq_yes_3,jlr_yes_2,jlr_yes_3,jal_yes_2,jal_yes_3,xor_comp_3,reg_wr1_6 :std_logic;
+signal  valid_in_1,valid_in_2,valid_decider_1,valid_decider_2 : std_logic;
+signal  pc_control_decider: std_logic;
 
  
  begin
  
+
+valid_in_1 <= not ((valid_out_2 and ((beq_yes_2 and (not xor_comp_3)) or jlr_yes_2)) or (valid_out_1 and jal_yes_2)) ; 
+
+valid_in_2 <= not ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (jlr_yes_2 and valid_out_2));  
+
+pc_control_decider <= valid_in_1 and valid_in_2;
+
+pc_control <= "00" when pc_control_decider='1' else
+			  "01" when ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (valid_out_1 and jal_yes_2))='1' else 
+			  "10" when  (jlr_yes_2 and valid_out_2)='1';
 
  stg1: stage1 
  port map (
 
  	   clk                => clk,
 	   rst			      => rst,
-	   valid_in           => '1',
-	   pc_control         => "00",
+	   valid_in           => valid_in_1,
+	   pc_control         => pc_control,
 	   reg_b_val          =>  reg_b_val_3,
 	   pc_plus_imm        => pc_plus_imm_2,
 	   ir		          =>   ir_1,
@@ -291,7 +308,7 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 
  	   clk                    => clk,
 	   rst	                  =>  rst,
-	   valid_in               => valid_out_1,
+	   valid_in               => valid_in_2,
 	   ir                     => ir_1,
 	   pc_old_i               => pc_old_1,
 	   carry_yes              => carry_yes_2,
@@ -312,7 +329,8 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 	   mem_rd_5               => mem_rd_5_2,
 	   reg_wr_6               => reg_wr_6_2,
 	   jlr_yes                =>  jlr_yes_2,
-	   beq_jal_yes            => beq_jal_yes_2,
+	   beq_yes                => beq_yes_2,
+	   jal_yes                => jal_yes_2,
 	   valid_out              => valid_out_2
  	
  );
@@ -323,7 +341,8 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 	   rst		                  => rst,
 	   valid_in                   => valid_out_2,
 	   jlr_yes                    => jlr_yes_2,
-	   beq_jal_yes                => beq_jal_yes_2,
+	   beq_yes                    => beq_yes_2,
+	   jal_yes                    =>  jal_yes_2,
 
 	   reg_addr2_ctl              =>  reg_addr2_ctl_3_2,
 	   input_alu2_ctl_4           => input_alu2_ctl_4_2,
@@ -335,7 +354,7 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 
 	   rf_d1                      =>  rf_d1_3,
 	   rf_d2                      =>  rf_d2_3,
-
+	   pc_plus_imm                => pc_plus_imm_2,
 	   pc_old_i                   => pc_old_2,
 	   carry_yes_i                => carry_yes_2,
 	   zero_yes_i                 => zero_yes_2,
@@ -365,9 +384,10 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 	   reg_wr_6_o                 =>  reg_wr_6_3,
 
 	   rf_a2                      =>  rf_a2_3,
-
+	   pc_plus_imm_o              =>  pc_plus_imm_3,
 	   jlr_yes_o                  =>  jlr_yes_3,
-	   beq_jal_yes_o              => beq_jal_yes_3,
+	   beq_yes_o                  =>  beq_yes_3,
+	   jal_yes_o                  =>  jal_yes_3,
 
 	   valid_out                  =>  valid_out_3
  );
@@ -425,7 +445,7 @@ signal  beq_jal_yes_2,beq_jal_yes_3,jlr_yes_2,jlr_yes_3,xor_comp_3,reg_wr1_6 :st
 	   p_zero_i                 =>  p_zero_4,
 
 	   output_ctrl              =>  output_ctrl_5_4,
-	   read_ctrl                =>  mem_rd_5_4,
+	   read_ctrl                =>  mem_rd_5_4 ,
 	   reg_inp_data_ctl_6       => reg_inp_data_ctl_6_4,
 	   reg_wr_6                 =>  reg_wr_6_4,
 

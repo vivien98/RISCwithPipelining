@@ -50,7 +50,7 @@ use ieee.numeric_std.all;
 
  begin
 
-reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)); 		
+reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)) and valid_in; 		
 
  --reg_writing: reg_file
     

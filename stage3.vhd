@@ -9,7 +9,8 @@ use ieee.numeric_std.all;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
 	   jlr_yes : in std_logic;
-	   beq_jal_yes: in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   reg_addr2_ctl : in std_logic;
 	   input_alu2_ctl_4 : in std_logic_vector(1 downto 0);
@@ -22,6 +23,7 @@ use ieee.numeric_std.all;
 	   rf_d1 : in std_logic_vector(15 downto 0);
 	   rf_d2: in std_logic_vector(15 downto 0);
 
+	   pc_plus_imm : in std_logic_vector(15 downto 0);
 	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
@@ -51,9 +53,11 @@ use ieee.numeric_std.all;
 	   reg_wr_6_o : out std_logic;
 
 	   rf_a2: out std_logic_vector(2 downto 0);
+	   pc_plus_imm_o : out std_logic_vector(15 downto 0);
 
 	   jlr_yes_o : out std_logic;
-	   beq_jal_yes_o: out std_logic;
+	   beq_yes_o: out std_logic;
+	   jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic
 		
@@ -139,6 +143,11 @@ xor_comp <= (rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13)
 	 mem_rd_5_o <= mem_rd_5;
 	 reg_wr_6_o <= reg_wr_6;	
      reg_inp_data_ctl_6_o <= reg_inp_data_ctl_6;
+     pc_plus_imm_o <= pc_plus_imm;
+     jal_yes_o <= jal_yes;
+     jlr_yes_o <= jlr_yes;
+     beq_yes_o <= beq_yes;
+
 
 
  end if;
