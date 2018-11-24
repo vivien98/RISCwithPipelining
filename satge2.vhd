@@ -104,6 +104,8 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      reg_inp_data_ctl_6 <= ir(15);
      beq_jal_yes <= ((ir(15)) and (not ir(13)) and (not ir(12)));
      jlr_yes <= (ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12));
+     alu_op(1)<= ir(13);
+     alu_op(0) <= ir(15);
 
 
 

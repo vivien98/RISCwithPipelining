@@ -100,6 +100,9 @@ mem_out <= membr1 & membr2;
  	t2_out <= t2_in;
  	reg_a_adr_out <= reg_a_adr_in;
 
+ 	reg_inp_data_ctl_6_o <= reg_inp_data_ctl_6;
+ 	reg_wr_6_o <= reg_wr_6;
+
  end if;
  end process stg5;
   

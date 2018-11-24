@@ -131,8 +131,14 @@ xor_comp <= (rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13)
 	 alu_op_o <= alu_op_i;
 	 imm9_o <= imm9_i;
 	 imm6_o <= imm6_i;
-	 reg_a_addr_o <= reg_a_addr_i;	
+	 reg_a_addr_o <= reg_a_addr_i;
 
+	 input_alu2_ctl_4_o <= input_alu2_ctl_4;
+	 output_ctrl_5_o <= output_ctrl_5;
+	 output_ctrl_4_o <= output_ctrl_4;
+	 mem_rd_5_o <= mem_rd_5;
+	 reg_wr_6_o <= reg_wr_6;	
+     reg_inp_data_ctl_6_o <= reg_inp_data_ctl_6;
 
 
  end if;
