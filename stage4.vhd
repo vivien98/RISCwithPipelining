@@ -106,6 +106,11 @@ imm9_app_16(15 downto 7) <= imm9;
  	t2_out <= t2_in;
  	reg_a_adr_out <= reg_a_adr_in;
 
+ 	output_ctrl_5_o <= output_ctrl_5;
+ 	mem_rd_5_o <= mem_rd_5;
+ 	reg_inp_data_ctl_6_o <= reg_inp_data_ctl_6;
+ 	reg_wr_6_o <= reg_wr_6;
+
  end if;
  end process stg4;
   
