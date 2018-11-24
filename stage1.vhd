@@ -23,7 +23,6 @@ use ieee.numeric_std.all;
  end entity ;
 
  architecture behave of stage1 is
-
   component alu is
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
