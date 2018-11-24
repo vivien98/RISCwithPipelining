@@ -19,7 +19,7 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
 
-	   pc_old_i: in std_logic_vector(2 downto 0);
+	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
 	   imm6_i : in std_logic_vector(5 downto 0);

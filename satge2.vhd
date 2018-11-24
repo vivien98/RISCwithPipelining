@@ -9,7 +9,7 @@ use ieee.numeric_std.all;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
 	   ir : in std_logic_vector(15 downto 0);
-	   pc_old_i: in std_logic_vector(2 downto 0);
+	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes :  out std_logic;
 	   zero_yes: out std_logic;
 	   pc_old_o		: out std_logic_vector(15 downto 0);
