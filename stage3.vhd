@@ -19,6 +19,9 @@ use ieee.numeric_std.all;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
 
+	   rf_d1 : in std_logic_vector(15 downto 0);
+	   rf_d2: in std_logic_vector(15 downto 0);
+
 	   pc_old_i: in std_logic_vector(15 downto 0);
 	   carry_yes_i :  in std_logic;
 	   zero_yes_i: in std_logic;
@@ -47,6 +50,8 @@ use ieee.numeric_std.all;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
 
+	   rf_a2: out std_logic_vector(2 downto 0);
+
 	   jlr_yes_o : out std_logic;
 	   beq_jal_yes_o: out std_logic;
 
@@ -59,51 +64,59 @@ use ieee.numeric_std.all;
 
 architecture behave of stage3 is
 
-	component reg_file is
+	--component reg_file is
     
-    port (
-	   clk        : in   std_logic;
-	   rst        : in   std_logic;
-	   wr         : in   std_logic;
-	   rf_a1      : in  std_logic_vector(2 downto 0);
-	   rf_a2      : in  std_logic_vector(2 downto 0);
-	   rf_a3      : in  std_logic_vector(2 downto 0);
-	   rf_d1      : out  std_logic_vector(15 downto 0);
-	   rf_d2      : out  std_logic_vector(15 downto 0);
-	   rf_d3      : in  std_logic_vector(15 downto 0);
-		Reg7 : in std_logic_vector(15 downto 0)
-     );
+ --   port (
+	--   clk        : in   std_logic;
+	--   rst        : in   std_logic;
+	--   wr         : in   std_logic;
+	--   rf_a1      : in  std_logic_vector(2 downto 0);
+	--   rf_a2      : in  std_logic_vector(2 downto 0);
+	--   rf_a3      : in  std_logic_vector(2 downto 0);
+	--   rf_d1      : out  std_logic_vector(15 downto 0);
+	--   rf_d2      : out  std_logic_vector(15 downto 0);
+	--   rf_d3      : in  std_logic_vector(15 downto 0);
+	--	Reg7 : in std_logic_vector(15 downto 0)
+ --    );
 		
-  end component ;
+ -- end component ;
 
-signal rrf_d3,r7,rf_d1,rf_d2,rf_d3:std_logic_vector (15 downto 0);
-signal rf_a1,rf_a2,rf_a3: std_logic_vector(2 downto 0);
+
 
 begin
 
- reg_read: reg_file
+ --reg_read: reg_file
     
-    port map (
-	   clk        => clk,
-	   rst        => rst,
-	   wr         => '0',
-	   rf_a1      => reg_b_addr,
-	   rf_a2      => rf_a2,
-	   rf_a3      => rf_a3,
-	   rf_d1      => rf_d1,
-	   rf_d2      => rf_d2,
-	   rf_d3      => rf_d3,
-	   Reg7 => R7
-     );
+ --   port map (
+	--   clk        => clk,
+	--   rst        => rst,
+	--   wr         => '0',
+	--   rf_a1      => reg_b_addr,
+	--   rf_a2      => rf_a2,
+	--   rf_a3      => rf_a3,
+	--   rf_d1      => rf_d1,
+	--   rf_d2      => rf_d2,
+	--   rf_d3      => rf_d3,
+	--   Reg7 => R7
+ --    );
+
+ rf_a2 <= reg_c_addr when reg_addr2_ctl='0' else
+          reg_a_addr_i when reg_addr2_ctl='1';
+
+xor_comp <= (rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13) xor rf_d2(13)) or (rf_d1(12) xor rf_d2(12)) or
+	             (rf_d1(11) xor rf_d2(11)) or (rf_d1(10) xor rf_d2(10)) or (rf_d1(9) xor rf_d2(9)) or (rf_d1(8) xor rf_d2(8)) or
+	             (rf_d1(7) xor rf_d2(7)) or (rf_d1(6) xor rf_d2(6)) or (rf_d1(5) xor rf_d2(5)) or (rf_d1(4) xor rf_d2(4)) or
+	             (rf_d1(3) xor rf_d2(3)) or (rf_d1(2) xor rf_d2(2)) or (rf_d1(1) xor rf_d2(1)) or (rf_d1(0) xor rf_d2(0)) ;
+
 
  stg3:process(clk)
  begin
  if rising_edge(clk) then
 
- 	 case reg_addr2_ctl is
-		when '0' =>  rf_a2 <= reg_c_addr;
-		when others =>  rf_a2 <= reg_a_addr_i;
-	 end case;
+ 	-- case reg_addr2_ctl is
+		--when '0' =>  rf_a2 <= reg_c_addr;
+		--when others =>  rf_a2 <= reg_a_addr_i;
+	 --end case;
 
 	 if(valid_in='0') then
 	 	valid_out <= '0';
@@ -120,10 +133,7 @@ begin
 	 imm6_o <= imm6_i;
 	 reg_a_addr_o <= reg_a_addr_i;	
 
-	 xor_comp <= (rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13) xor rf_d2(13)) or (rf_d1(12) xor rf_d2(12)) or
-	             (rf_d1(11) xor rf_d2(11)) or (rf_d1(10) xor rf_d2(10)) or (rf_d1(9) xor rf_d2(9)) or (rf_d1(8) xor rf_d2(8)) or
-	             (rf_d1(7) xor rf_d2(7)) or (rf_d1(6) xor rf_d2(6)) or (rf_d1(5) xor rf_d2(5)) or (rf_d1(4) xor rf_d2(4)) or
-	             (rf_d1(3) xor rf_d2(3)) or (rf_d1(2) xor rf_d2(2)) or (rf_d1(1) xor rf_d2(1)) or (rf_d1(0) xor rf_d2(0)) ;
+
 
  end if;
  end process stg3;

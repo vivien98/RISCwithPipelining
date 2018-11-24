@@ -41,7 +41,8 @@ use ieee.numeric_std.all;
      );
 		
   end component ;
-signal pc,pc_out,ir1 :std_logic_vector (15 downto 0);
+signal pc,ir1 :std_logic_vector (15 downto 0);
+signal pc_out : std_logic_vector(15 downto 0):= (others => '0');
 signal membr1,membr2,membw1,membw2:std_logic_vector (7 downto 0);
 signal carry1,zero1: std_logic;
 
@@ -77,7 +78,7 @@ ir1 <= membr1 & membr2;
      );
 
 
- stg1:process(clk)
+ stg1:process(clk,rst)
  begin
  if rst = '1' then
  	pc <= x"0000";
