@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition"
 
--- DATE "11/24/2018 14:52:06"
+-- DATE "11/24/2018 19:03:18"
 
 -- 
 -- Device: Altera 5M1270ZT144C5 Package TQFP144

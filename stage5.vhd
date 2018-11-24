@@ -11,8 +11,12 @@ use ieee.numeric_std.all;
 	   valid_in : in std_logic;
 	   p_carry_i: in std_logic;
 	   p_zero_i: in std_logic;
+
 	   output_ctrl: in std_logic;
 	   read_ctrl: in std_logic;
+	   reg_inp_data_ctl_6: in std_logic;
+	   reg_wr_6 : in std_logic;
+
 	   alu_out_5 : in std_logic_vector(15 downto 0);
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
 	   t2_in  : in std_logic_vector(15 downto 0);
@@ -27,6 +31,10 @@ use ieee.numeric_std.all;
 	   carry_yes_o :  out std_logic;
 	   zero_yes_o: out std_logic;
 	   p_zero_o : out std_logic;
+
+	   reg_inp_data_ctl_6_o: out std_logic;
+	   reg_wr_6_o : out std_logic;
+
 	   valid_out : out std_logic 
 		
      );
@@ -66,7 +74,7 @@ mem_out <= membr1 & membr2;
 		membr2     => membr2,
 	   membw1     => t2_in(7 downto 0),
 		membw2     => t2_in(15 downto 8),
-	   wr        => '0' 
+	   wr        => read_ctrl 
      );
 
 
@@ -77,7 +85,7 @@ mem_out <= membr1 & membr2;
  	p_zero_o <= p_zero_i;
 
  	 case output_ctrl is
-		when '0' =>  stage_5_out <= mem_out;
+		when '1' =>  stage_5_out <= mem_out;
 		when others =>  stage_5_out <= alu_out_5;
 	 end case;
 

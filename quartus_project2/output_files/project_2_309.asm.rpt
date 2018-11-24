@@ -1,5 +1,5 @@
 Assembler report for project_2_309
-Sat Nov 24 14:52:04 2018
+Sat Nov 24 19:03:16 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sat Nov 24 14:52:04 2018 ;
+; Assembler Status      ; Successful - Sat Nov 24 19:03:16 2018 ;
 ; Revision Name         ; project_2_309                         ;
 ; Top-level Entity Name ; stage1                                ;
 ; Family                ; MAX V                                 ;
@@ -77,14 +77,14 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Nov 24 14:52:03 2018
+    Info: Processing started: Sat Nov 24 19:03:15 2018
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off project_2_309 -c project_2_309
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 791 megabytes
-    Info: Processing ended: Sat Nov 24 14:52:04 2018
+    Info: Processing ended: Sat Nov 24 19:03:16 2018
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00
 

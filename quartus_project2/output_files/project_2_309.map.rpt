@@ -1,5 +1,5 @@
 Analysis & Synthesis report for project_2_309
-Sat Nov 24 14:52:00 2018
+Sat Nov 24 19:03:11 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -48,7 +48,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                              ;
 +-----------------------------+---------------------------------------------+
-; Analysis & Synthesis Status ; Successful - Sat Nov 24 14:52:00 2018       ;
+; Analysis & Synthesis Status ; Successful - Sat Nov 24 19:03:11 2018       ;
 ; Quartus Prime Version       ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name               ; project_2_309                               ;
 ; Top-level Entity Name       ; stage1                                      ;
@@ -385,24 +385,24 @@ Note: All latches listed above may not be present at the end of synthesis due to
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Nov 24 14:51:46 2018
+    Info: Processing started: Sat Nov 24 19:02:51 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off project_2_309 -c project_2_309
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd
-    Info (12022): Found design unit 1: stage2-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd Line: 30
+    Info (12022): Found design unit 1: stage2-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd Line: 37
     Info (12023): Found entity 1: stage2 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/satge2.vhd Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd
-    Info (12022): Found design unit 1: stage3-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd Line: 39
+    Info (12022): Found design unit 1: stage3-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd Line: 55
     Info (12023): Found entity 1: stage3 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage3.vhd Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd
-    Info (12022): Found design unit 1: stage6-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd Line: 26
+    Info (12022): Found design unit 1: stage6-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd Line: 29
     Info (12023): Found entity 1: stage6 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage6.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd
-    Info (12022): Found design unit 1: stage5-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd Line: 36
+    Info (12022): Found design unit 1: stage5-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd Line: 44
     Info (12023): Found entity 1: stage5 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage5.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd
-    Info (12022): Found design unit 1: stage4-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd Line: 37
+    Info (12022): Found design unit 1: stage4-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd Line: 48
     Info (12023): Found entity 1: stage4 File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage4.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd
     Info (12022): Found design unit 1: stage1-behave File: /media/puneet/New Volume/SEM 5/EE 309 (Microprocessors)/project_2/codes/stage1.vhd Line: 25
@@ -494,9 +494,9 @@ Info (21057): Implemented 144 device resources after synthesis - the final resou
     Info (21059): Implemented 33 output pins
     Info (21061): Implemented 74 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 27 warnings
-    Info: Peak virtual memory: 936 megabytes
-    Info: Processing ended: Sat Nov 24 14:52:00 2018
-    Info: Elapsed time: 00:00:14
-    Info: Total CPU time (on all processors): 00:00:32
+    Info: Peak virtual memory: 944 megabytes
+    Info: Processing ended: Sat Nov 24 19:03:11 2018
+    Info: Elapsed time: 00:00:20
+    Info: Total CPU time (on all processors): 00:00:39
 
 

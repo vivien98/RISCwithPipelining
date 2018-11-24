@@ -11,7 +11,10 @@ use ieee.numeric_std.all;
 	   valid_in : in std_logic;
 	   p_carry_i: in std_logic;
 	   p_zero_i: in std_logic;
+
 	   reg_inp_data_ctl: in std_logic;
+	   reg_wr : in std_logic;
+
 	   stage_5_out_6 : in std_logic_vector(15 downto 0);
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
 	   pc_old_i		: in std_logic_vector(15 downto 0);
@@ -44,15 +47,18 @@ use ieee.numeric_std.all;
 
 signal rrf_d3,r7,rf_d1,rf_d2:std_logic_vector (15 downto 0);
 signal rf_a1,rf_a2: std_logic_vector(2 downto 0);
+signal reg_wr1 : std_logic;
 
  begin
+
+reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)); 		
 
  reg_writing: reg_file
     
     port map (
 	   clk        => clk,
 	   rst        => rst,
-	   wr         => '1',
+	   wr         => reg_wr1,
 	   rf_a1      => rf_a1,
 	   rf_a2      => rf_a2,
 	   rf_a3      => reg_a_adr_in,
