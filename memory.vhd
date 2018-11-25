@@ -28,11 +28,11 @@ signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others 
 signal m0 :std_logic_vector (7 downto 0) := "00000110";
 signal m1:std_logic_vector (7 downto 0) :=  "01010000";
 
-signal m2 :std_logic_vector (7 downto 0) := "10010000";
-signal m3:std_logic_vector (7 downto 0) :=  "01000000";
+signal m2 :std_logic_vector (7 downto 0) := "11000000";
+signal m3:std_logic_vector (7 downto 0) :=  "01001000";
 
-signal m4 :std_logic_vector (7 downto 0) := "00000000";
-signal m5:std_logic_vector (7 downto 0) :=  "00000000";
+signal m4 :std_logic_vector (7 downto 0) := "10000000";
+signal m5:std_logic_vector (7 downto 0) :=  "00001000";
 
 signal m6 :std_logic_vector(7 downto 0) :=  "00000000";
 signal m7 :std_logic_vector(7 downto 0) :=  "00000000";
