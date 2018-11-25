@@ -92,7 +92,7 @@ clk4 <= '1' when (state = S0 or state = S1 or state = S4) else
 
 process(clk,rst)
 begin
-if(rst ='0')then
+if(rst ='1')then
 	state <= S0;
 elsif(rising_edge(clk))then
 	case state is

@@ -314,9 +314,21 @@ signal  pc_control_decider: std_logic;
 signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_mem,write_to_reg,load_init_mem_addr,lm_active,sm_active,rf_wr:std_logic;
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr:std_logic_vector(2 downto 0);
+signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
+signal valid_out_33,valid_out_44,valid_out_55 :std_logic;
 
  begin
+
+ clkk_1 <= clk and clk1;
+  clkk_2 <= clk and clk2;
+   clkk_3 <= clk and clk3;
+    clkk_4 <= clk and clk4;
+
+valid_out_33 <= wait_for_lmsm and valid_out_3;
+valid_out_44 <= wait_for_lmsm and valid_out_4;
+valid_out_55 <= wait_for_lmsm and valid_out_5;
  
+wait_for_lmsm <= not (lm_active or sm_active);
 
 valid_in_1 <= (not ((valid_out_2 and ((beq_yes_2 and (not xor_comp_3)) or jlr_yes_2)) or (valid_out_1 and jal_yes_2))) and (not rst) ; 
 
@@ -379,7 +391,7 @@ shifter1:shifter port map(
  stg1: stage1 
  port map (
 
- 	   clk                => clk and clk1,
+ 	   clk                => clkk_1,
 	   rst			      => rst,
 	   valid_in           => valid_in_1,
 	   pc_control         => pc_control,
@@ -394,7 +406,7 @@ shifter1:shifter port map(
  stg2 : stage2
  port map (
 
- 	   clk                    => clk and clk2,
+ 	   clk                    => clkk_2,
 	   rst	                  =>  rst,
 	   valid_in               => valid_in_2,
 	   ir                     => ir_1,
@@ -427,7 +439,7 @@ shifter1:shifter port map(
 
  stg3: stage3
  port map (
- 	   clk                        => clk and clk3,
+ 	   clk                        => clkk_3,
 	   rst		                  => rst,
 	   valid_in                   => valid_out_2,
 	   jlr_yes                    => jlr_yes_2,
@@ -487,9 +499,9 @@ shifter1:shifter port map(
 
  port map (
 
- 	   clk                          => clk and clk4,
+ 	   clk                          => clkk_4,
 	    rst	                        => rst,
-	   valid_in                     => valid_out_3,
+	   valid_in                     => valid_out_33,
 	   input_alu2_ctl               => input_alu2_ctl_4_3,
 	   output_ctrl                  =>    output_ctrl_4_3,
 	   output_ctrl_5                =>   output_ctrl_5_3,
@@ -530,7 +542,7 @@ shifter1:shifter port map(
 
 	   clk                      =>  clk,
 	   rst		                =>  rst,
-	   valid_in                 =>  valid_out_4,
+	   valid_in                 =>  valid_out_44,
 	   p_carry_i                =>  p_carry_4,
 	   p_zero_i                 =>  p_zero_4,
 
@@ -574,7 +586,7 @@ port map (
 
 	   clk                    =>  clk,
 	   rst		              =>  rst,
-	   valid_in               =>  valid_out_5,
+	   valid_in               =>  valid_out_55,
 	   p_carry_i              =>  p_carry_5,
 	   p_zero_i               =>  p_zero_5,
 
@@ -615,6 +627,6 @@ port map (
  rf_d3 <= ctrl_to_reg_data when lm_active = '1' else
  			rrf_d3_6;
 rf_wr <= write_to_reg when lm_active = '1' else
-	reg_wr_6_5;
+	reg_wr1_6;
  	
  end architecture behave;
