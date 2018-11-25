@@ -46,9 +46,11 @@ use ieee.numeric_std.all;
  --    );
 		
  -- end component ;
-
+signal valid_out1 : std_logic := '0';
 
  begin
+
+ valid_out <= valid_out1;
 
 reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)) and valid_in; 		
 
@@ -79,10 +81,7 @@ reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or
 		--when others =>  rrf_d3 <= pc_old_i;
 	 --end case;
 
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
  end if;
  end process stg6;
   

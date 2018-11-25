@@ -45,9 +45,10 @@ use ieee.numeric_std.all;
 
   signal yin,imm6_16,imm9_se_16 : std_logic_vector(15 downto 0);
   signal carry1,zero1,pc_plus_imm_ctl: std_logic;
+  signal valid_out1 : std_logic := '0';
 
  begin
-
+valid_out <= valid_out1;
    stage_4_alu: alu 
 	port map
 	(xin      =>   pc_old_i,           
@@ -61,7 +62,7 @@ use ieee.numeric_std.all;
 imm6_16(5 downto 0) <= ir(5 downto 0);
 imm6_16(15 downto 6) <= (others => '0');
 
-jal_yes <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (not ir(12)));
+jal_yes <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (not ir(12))) and (not rst);
 
 imm9_se_16(8 downto 0) <= ir(8 downto 0);
 imm9_se_16(15 downto 9) <= (others => '0');
@@ -74,16 +75,17 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
 
 
 
- stg2:process(clk)
+ stg2:process(clk,rst)
  begin
- if rising_edge(clk) then
+ if(rst='1') then
+	beq_yes <= '0';
+	jlr_yes <= '0';
+
+ elsif rising_edge(clk) then
 
 
 
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
 	 reg_a_addr <= ir(11 downto 9);
 	 reg_b_addr <= ir(8 downto 6);
 	 reg_c_addr <= ir(5 downto 3);
@@ -105,8 +107,8 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      mem_rd_5 <= (not ir(15)) and (ir(14)) and (not ir(13)) and (ir(12));
      reg_wr_6 <= (not ir(14)) or ((not ir(15)) and(not ir(12)));
      reg_inp_data_ctl_6 <= ir(15);
-     beq_yes <= ((ir(15)) and ir(14) and (not ir(13)) and (not ir(12)));
-     jlr_yes <= (ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12));
+     beq_yes <= ((ir(15)) and ir(14) and (not ir(13)) and (not ir(12))) and (not rst);
+     jlr_yes <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12))) and (not rst);
      alu_op(1)<= ir(13);
      alu_op(0) <= ir(15);
 

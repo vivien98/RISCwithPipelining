@@ -53,8 +53,10 @@ use ieee.numeric_std.all;
 		
 signal imm6_16,imm9_se_16,imm9_app_16,yin,alu_out1 :std_logic_vector (15 downto 0);
 signal carry1,zero1: std_logic;
+signal valid_out1 : std_logic := '0';
 
  begin
+valid_out <= valid_out1;
 
 imm6_16(5 downto 0) <= imm6;
 imm6_16(15 downto 6) <= (others => '0');
@@ -95,10 +97,7 @@ imm9_app_16(15 downto 7) <= imm9;
 		when '0' =>  alu_out <= alu_out1;
 		when others =>  alu_out <= imm9_app_16;
 	 end case;
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
 
  	pc_old_o <= pc_old_i;		
  	carry_yes_o <= carry_yes_i;

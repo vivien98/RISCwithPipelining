@@ -255,7 +255,7 @@ use ieee.numeric_std.all;
   end component ;
 
 
-signal  reg_b_val_3,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
+signal  reg_b_val_3,pc_plus_imm_1,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
 signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7 : std_logic_vector(15 downto 0);
 
 
@@ -278,15 +278,17 @@ signal  pc_control_decider: std_logic;
  begin
  
 
-valid_in_1 <= not ((valid_out_2 and ((beq_yes_2 and (not xor_comp_3)) or jlr_yes_2)) or (valid_out_1 and jal_yes_2)) ; 
+valid_in_1 <= (not ((valid_out_2 and ((beq_yes_2 and (not xor_comp_3)) or jlr_yes_2)) or (valid_out_1 and jal_yes_2))) and (not rst) ; 
 
-valid_in_2 <= not ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (jlr_yes_2 and valid_out_2));  
+valid_in_2 <= (not ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (jlr_yes_2 and valid_out_2))) and valid_out_1 and (not rst);  
 
-pc_control_decider <= valid_in_1 and valid_in_2;
 
-pc_control <= "00" when pc_control_decider='1' else
-			  "01" when ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (valid_out_1 and jal_yes_2))='1' else 
-			  "10" when  (jlr_yes_2 and valid_out_2)='1';
+pc_control <= "10" when (jlr_yes_2 and valid_out_2)='1' else
+			  "01" when ((beq_yes_2 and (not xor_comp_3) and valid_out_2) or (valid_out_1 and jal_yes_2 and (not (jlr_yes_2 and valid_out_2)))) ='1' else 
+			  "00" ;
+
+pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_out_2)='1' else 
+                 pc_plus_imm_2 when  ((not(beq_yes_2 and (not xor_comp_3) and valid_out_2)) and (valid_out_1 and jal_yes_2)) ='1'; 
 
  stg1: stage1 
  port map (
@@ -296,7 +298,7 @@ pc_control <= "00" when pc_control_decider='1' else
 	   valid_in           => valid_in_1,
 	   pc_control         => pc_control,
 	   reg_b_val          =>  reg_b_val_3,
-	   pc_plus_imm        => pc_plus_imm_2,
+	   pc_plus_imm        => pc_plus_imm_1,
 	   ir		          =>   ir_1,
 	   pc_old		      => pc_old_1,
 	   valid_out          => valid_out_1

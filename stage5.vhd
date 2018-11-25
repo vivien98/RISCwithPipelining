@@ -60,10 +60,14 @@ use ieee.numeric_std.all;
 
 signal mem_out:std_logic_vector (15 downto 0);
 signal membr1,membr2:std_logic_vector (7 downto 0);
+signal mem_read: std_logic;
+signal valid_out1 : std_logic := '0';
 
  begin
+valid_out <= valid_out1;
 
 mem_out <= membr1 & membr2;
+mem_read <= read_ctrl and valid_in;
 
  data_mem: memory2
     
@@ -74,7 +78,7 @@ mem_out <= membr1 & membr2;
 		membr2     => membr2,
 	   membw1     => t2_in(15 downto 8),
 		membw2     => t2_in(7 downto 0),
-	   wr        => read_ctrl and valid_in
+	   wr        => mem_read
      );
 
 
@@ -89,10 +93,7 @@ mem_out <= membr1 & membr2;
 		when others =>  stage_5_out <= alu_out_5;
 	 end case;
 
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
 
  	pc_old_o <= pc_old_i;		
  	carry_yes_o <= carry_yes_i;

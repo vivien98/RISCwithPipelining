@@ -85,10 +85,10 @@ architecture behave of stage3 is
 		
  -- end component ;
 
-
+signal valid_out1 : std_logic := '0';
 
 begin
-
+valid_out <= valid_out1;
  --reg_read: reg_file
     
  --   port map (
@@ -107,25 +107,24 @@ begin
  rf_a2 <= reg_c_addr when reg_addr2_ctl='0' else
           reg_a_addr_i when reg_addr2_ctl='1';
 
-xor_comp <= (rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13) xor rf_d2(13)) or (rf_d1(12) xor rf_d2(12)) or
+xor_comp <= ((rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13) xor rf_d2(13)) or (rf_d1(12) xor rf_d2(12)) or
 	             (rf_d1(11) xor rf_d2(11)) or (rf_d1(10) xor rf_d2(10)) or (rf_d1(9) xor rf_d2(9)) or (rf_d1(8) xor rf_d2(8)) or
 	             (rf_d1(7) xor rf_d2(7)) or (rf_d1(6) xor rf_d2(6)) or (rf_d1(5) xor rf_d2(5)) or (rf_d1(4) xor rf_d2(4)) or
-	             (rf_d1(3) xor rf_d2(3)) or (rf_d1(2) xor rf_d2(2)) or (rf_d1(1) xor rf_d2(1)) or (rf_d1(0) xor rf_d2(0)) ;
+	             (rf_d1(3) xor rf_d2(3)) or (rf_d1(2) xor rf_d2(2)) or (rf_d1(1) xor rf_d2(1)) or (rf_d1(0) xor rf_d2(0))) and (not rst) ;
 
 
- stg3:process(clk)
+ stg3:process(clk,rst)
  begin
- if rising_edge(clk) then
+ if(rst='1') then
+
+ elsif rising_edge(clk) then
 
  	-- case reg_addr2_ctl is
 		--when '0' =>  rf_a2 <= reg_c_addr;
 		--when others =>  rf_a2 <= reg_a_addr_i;
 	 --end case;
 
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
 	 t1 <= rf_d1;
 	 reg_b_val <= rf_d1;
 	 t2 <= rf_d2;

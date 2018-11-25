@@ -42,14 +42,17 @@ use ieee.numeric_std.all;
      );
 		
   end component ;
-signal pc,ir1 :std_logic_vector (15 downto 0);
+signal pc :std_logic_vector (15 downto 0);
+signal ir1 :std_logic_vector (15 downto 0) ;
 signal pc_out : std_logic_vector(15 downto 0):= (others => '0');
 signal membr1,membr2,membw1,membw2:std_logic_vector (7 downto 0);
 signal carry1,zero1: std_logic;
+signal valid_out1 : std_logic := '0';
 
  begin
 
 ir1 <= membr1 & membr2;
+valid_out <= valid_out1;
 --carry_yes <= ((not ir1(15)) and (not ir1(14)) and (not ir1(13)) and (not ir1(12)) and (ir1(1)) and (not ir1(0)))
 --             or ((not ir1(15)) and (not ir1(14)) and (ir1(13)) and (not ir1(12)) and (ir1(1)) and (not ir1(0)));
 
@@ -89,10 +92,7 @@ ir1 <= membr1 & membr2;
 		when "01" =>  pc <= pc_plus_imm;
 		when others =>  pc <= reg_b_val;
 	 end case;
-	 if(valid_in='0') then
-	 	valid_out <= '0';
-	 else valid_out <= '1';
-	 end if;
+	 valid_out1 <= valid_in;
 
  	pc_old <= pc;		
  	ir <= ir1;
