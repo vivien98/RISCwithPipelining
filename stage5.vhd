@@ -35,7 +35,15 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   reg_wr_6_o : out std_logic;
 
-	   valid_out : out std_logic 
+	   valid_out : out std_logic ;
+
+	   mem_addr_in 				: in std_logic_vector(15 downto 0);
+	   write_mem_data			: in std_logic_vector(15 downto 0);
+	   read_mem_data			: out std_logic_vector(15 downto 0);
+	   write_to_mem				: in std_logic;
+	   lm_active 				: in std_logic;
+	   sm_active 				: in std_logic
+
 		
      );
 		
@@ -58,8 +66,8 @@ use ieee.numeric_std.all;
 		
   end component ;
 
-signal mem_out:std_logic_vector (15 downto 0);
-signal membr1,membr2:std_logic_vector (7 downto 0);
+signal mem_out,memadr:std_logic_vector (15 downto 0);
+signal membr1,membr2,membw1,membw2:std_logic_vector (7 downto 0);
 signal mem_read: std_logic;
 signal valid_out1 : std_logic := '0';
 
@@ -67,17 +75,28 @@ signal valid_out1 : std_logic := '0';
 valid_out <= valid_out1;
 
 mem_out <= membr1 & membr2;
-mem_read <= read_ctrl and valid_in;
+read_mem_data <= mem_out;
 
+memadr <= mem_addr_in when (lm_active='1'or sm_active='1') else
+		alu_out_5;
+
+mem_read <= write_to_mem when (lm_active='1'or sm_active='1')else
+		read_ctrl and valid_in;
+
+membw1 <= write_mem_data(15 downto 8) when sm_active='1' else
+			t2_in(15 downto 8) ;
+
+membw2 <= write_mem_data(7 downto 0) when sm_active='1' else
+			t2_in(7 downto 0) ;			
  data_mem: memory2
     
     port map (
 	   clk       => clk ,
-	   mema      => alu_out_5,
+	   mema      => memadr,
       membr1     => membr1,
 		membr2     => membr2,
-	   membw1     => t2_in(15 downto 8),
-		membw2     => t2_in(7 downto 0),
+	   membw1     => membw1,
+		membw2     => membw2,
 	   wr        => mem_read
      );
 

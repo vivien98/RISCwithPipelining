@@ -30,8 +30,9 @@ use ieee.numeric_std.all;
 	   jlr_yes : out std_logic;
 	   beq_yes: out std_logic;
 	   jal_yes: out std_logic;
-	   valid_out : out std_logic
-
+	   valid_out : out std_logic;
+	   lm_out_2:out std_logic;
+	   sm_out_2:out std_logic
 		
      );
 		
@@ -112,7 +113,8 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      alu_op(1)<= ir(13);
      alu_op(0) <= ir(15);
 
-
+     lm_out_2 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (not ir(12))) and (not rst);
+     sm_out_2 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (ir(12))) and (not rst);
 
  end if;
  end process stg2;

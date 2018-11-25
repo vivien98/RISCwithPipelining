@@ -61,8 +61,9 @@ use ieee.numeric_std.all;
 	   jlr_yes : out std_logic;
 	   beq_yes: out std_logic;
 	   jal_yes: out std_logic;
-	   valid_out : out std_logic
-
+	   valid_out : out std_logic;
+	   lm_out_2 : out std_logic;
+	   sm_out_2 : out std_logic
 		
      );
 		
@@ -206,7 +207,15 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   reg_wr_6_o : out std_logic;
 
-	   valid_out : out std_logic 
+	   valid_out : out std_logic ;
+
+	   mem_addr_in 				: in std_logic_vector(15 downto 0);
+	   write_mem_data			: in std_logic_vector(15 downto 0);
+	   read_mem_data			: out std_logic_vector(15 downto 0);
+	   write_to_mem				: in std_logic;
+	   lm_active 				: in std_logic;
+	   sm_active 				: in std_logic
+
 		
      );
 		
@@ -254,6 +263,34 @@ use ieee.numeric_std.all;
 		
   end component ;
 
+  component controller is 
+	port(
+			clk: in std_logic;
+			rst: in std_logic;
+			valid_2: in std_logic;
+			lm_out_2: in std_logic;
+			sm_out_2: in std_logic;
+			mem_addr_in: in std_logic_vector(15 downto 0);
+			mem_data_in: in std_logic_vector(15 downto 0);
+			reg_data_in:in std_logic_vector(15 downto 0);
+			shifter_bit_0: in std_logic;
+			next_mem_addr:out std_logic_vector(15 downto 0);
+			clk1,clk2,clk3,clk4:out std_logic;
+			write_to_reg:out std_logic;
+			write_to_mem:out std_logic;
+			write_mem_data:out std_logic_vector(15 downto 0);
+			write_reg_data:out std_logic_vector(15 downto 0);
+			reg_addr_out:out std_logic_vector(2 downto 0);
+			shift_now:out std_logic;
+			lm_active_now:out std_logic;
+			sm_active_now:out std_logic;
+			load_init_mem_addr:out std_logic
+		);
+	end component;
+
+	component shifter is
+	port(clk,shift,wr: in std_logic ;writeData : in std_logic_vector(7 downto 0);bit1: out std_logic);
+	end component;
 
 signal  reg_b_val_3,pc_plus_imm_1,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
 signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7 : std_logic_vector(15 downto 0);
@@ -274,7 +311,10 @@ signal  beq_yes_2,beq_yes_3,jlr_yes_2,jlr_yes_3,jal_yes_2,jal_yes_3,xor_comp_3,r
 signal  valid_in_1,valid_in_2,valid_decider_1,valid_decider_2 : std_logic;
 signal  pc_control_decider: std_logic;
 
- 
+signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_mem,write_to_reg,load_init_mem_addr,lm_active,sm_active,rf_wr:std_logic;
+signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3:std_logic_vector(15 downto 0);
+signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr:std_logic_vector(2 downto 0);
+
  begin
  
 
@@ -290,10 +330,56 @@ pc_control <= "10" when (jlr_yes_2 and valid_out_2)='1' else
 pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_out_2)='1' else 
                  pc_plus_imm_2 when  ((not(beq_yes_2 and (not xor_comp_3) and valid_out_2)) and (valid_out_1 and jal_yes_2)) ='1'; 
 
+process( clk )
+begin
+	if(rising_edge(clk) and (lm_active or sm_active) ='1')then
+		mem_addr_in <= next_mem_addr;
+	elsif(rising_edge(clk) and load_init_mem_addr='1') then
+		mem_addr_in <= t2_3;
+	end if;
+end process ; 
+
+controller1: controller port map (
+
+ 		clk => clk,
+ 		rst => rst,
+ 		valid_2 => valid_out_2,
+ 		lm_out_2 => lm_out_2,
+ 		sm_out_2 => sm_out_2,
+ 		mem_addr_in => mem_addr_in,
+ 		reg_data_in => rf_d2_3,
+ 		mem_data_in => mem_to_ctrl_data,
+ 		shifter_bit_0 => shifter_bit_0,
+ 		next_mem_addr => next_mem_addr,
+ 		clk1 => clk1,
+ 		clk2 => clk2,
+ 		clk3 => clk3,
+ 		clk4 => clk4,
+ 		write_to_reg => write_to_reg,
+ 		write_to_mem => write_to_mem,
+ 		write_mem_data => ctrl_to_mem_data,
+ 		write_reg_data => ctrl_to_reg_data,
+ 		reg_addr_out => ctrl_to_reg_addr,
+ 		shift_now => shift_now,
+ 		lm_active_now => lm_active,
+ 		sm_active_now => sm_active,
+ 		load_init_mem_addr => load_init_mem_addr
+ 		);
+
+shifter1:shifter port map(
+
+		clk => clk ,
+		shift => shift_now,
+		wr => clk3,
+		writeData => imm9_2(7 downto 0),
+		bit1 => shifter_bit_0
+
+	);
+
  stg1: stage1 
  port map (
 
- 	   clk                => clk,
+ 	   clk                => clk and clk1,
 	   rst			      => rst,
 	   valid_in           => valid_in_1,
 	   pc_control         => pc_control,
@@ -308,7 +394,7 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
  stg2 : stage2
  port map (
 
- 	   clk                    => clk,
+ 	   clk                    => clk and clk2,
 	   rst	                  =>  rst,
 	   valid_in               => valid_in_2,
 	   ir                     => ir_1,
@@ -333,13 +419,15 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
 	   jlr_yes                =>  jlr_yes_2,
 	   beq_yes                => beq_yes_2,
 	   jal_yes                => jal_yes_2,
-	   valid_out              => valid_out_2
+	   valid_out              => valid_out_2,
+	   lm_out_2				  => lm_out_2,
+	   sm_out_2				  => sm_out_2
  	
  );
 
  stg3: stage3
  port map (
- 	   clk                        => clk,
+ 	   clk                        => clk and clk3,
 	   rst		                  => rst,
 	   valid_in                   => valid_out_2,
 	   jlr_yes                    => jlr_yes_2,
@@ -399,7 +487,7 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
 
  port map (
 
- 	   clk                          => clk,
+ 	   clk                          => clk and clk4,
 	    rst	                        => rst,
 	   valid_in                     => valid_out_3,
 	   input_alu2_ctl               => input_alu2_ctl_4_3,
@@ -469,7 +557,14 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
 	   reg_inp_data_ctl_6_o     =>  reg_inp_data_ctl_6_5,
 	   reg_wr_6_o               =>  reg_wr_6_5,
 
-	   valid_out                =>  valid_out_5
+	   valid_out                =>  valid_out_5,
+
+	   mem_addr_in 				=> mem_addr_in,
+	   write_mem_data			=> ctrl_to_mem_data,
+	   read_mem_data			=> mem_to_ctrl_data,
+	   write_to_mem				=> write_to_mem,
+	   lm_active 				=> lm_active,
+	   sm_active 				=> sm_active
  	
  );
 
@@ -503,16 +598,23 @@ port map (
     port map (
 	   clk        => clk,
 	   rst        => rst,
-	   wr         => reg_wr1_6,
-	   rf_a1      => reg_b_addr_2,
+	   wr         => rf_wr,
+	   rf_a1      => rf_a1,
 	   rf_a2      => rf_a2_3,
-	   rf_a3      => reg_a_addr_5,
+	   rf_a3      => rf_a3,
 	   rf_d1      => rf_d1_3,
 	   rf_d2      => rf_d2_3,
-	   rf_d3      => rrf_d3_6,
+	   rf_d3      => rf_d3,
 	   Reg7 => R7
      );
 
- 
+ rf_a1	<= ctrl_to_reg_addr when sm_active = '1' else
+ 			reg_b_addr_2 ;
+ rf_a3  <= ctrl_to_reg_addr when lm_active = '1' else
+ 			reg_a_addr_5;
+ rf_d3 <= ctrl_to_reg_data when lm_active = '1' else
+ 			rrf_d3_6;
+rf_wr <= write_to_reg when lm_active = '1' else
+	reg_wr_6_5;
  	
  end architecture behave;

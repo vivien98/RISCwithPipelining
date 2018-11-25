@@ -25,8 +25,8 @@ signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others 
 --signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
 --signal m2 :std_logic_vector(7 downto 0) :=  "00000000";--adc
 --signal m3 :std_logic_vector(7 downto 0) :=  "01010010";--adc
-signal m0 :std_logic_vector (7 downto 0) := "00000110";
-signal m1:std_logic_vector (7 downto 0) :=  "01010000";
+signal m0 :std_logic_vector (7 downto 0) := "01100110";
+signal m1:std_logic_vector (7 downto 0) :=  "01010101";
 
 signal m2 :std_logic_vector (7 downto 0) := "11000000";
 signal m3:std_logic_vector (7 downto 0) :=  "01001000";
@@ -129,31 +129,45 @@ entity memory2 is
 
 
 architecture behave of memory2 is
-signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others => '0');
+--signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others => '0');
 --signal m0 :std_logic_vector(7 downto 0) :=  "01010010"; --sw
 --signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
 --signal m2 :std_logic_vector(7 downto 0) :=  "00000000";--adc
 --signal m3 :std_logic_vector(7 downto 0) :=  "01010010";--adc
-signal m0 :std_logic_vector (7 downto 0) := "10010001";
-signal m1:std_logic_vector (7 downto 0) :=  "01000000";
+signal m0 :std_logic_vector (7 downto 0) := "00000001";
+signal m1:std_logic_vector (7 downto 0) :=  "00000010";
 
-signal m2 :std_logic_vector(7 downto 0) :=  "10000000";
-signal m3 :std_logic_vector(7 downto 0) :=  "00000011";
+signal m2 :std_logic_vector(7 downto 0) :=  "00000011";
+signal m3 :std_logic_vector(7 downto 0) :=  "00000100";
 
-signal m4 :std_logic_vector (7 downto 0) := "00000000";
-signal m5:std_logic_vector (7 downto 0) :=  "00000000";
+signal m4 :std_logic_vector (7 downto 0) := "00000101";
+signal m5:std_logic_vector (7 downto 0) :=  "00000110";
 
-signal m6 :std_logic_vector(7 downto 0) :=  "00000000";
-signal m7 :std_logic_vector(7 downto 0) :=  "00000000";
+signal m6 :std_logic_vector(7 downto 0) :=  "00000111";
+signal m7 :std_logic_vector(7 downto 0) :=  "00001000";
 
-signal m8 :std_logic_vector (7 downto 0) := "00000000";
-signal m9:std_logic_vector (7 downto 0) :=  "00000000";
+signal m8 :std_logic_vector (7 downto 0) := "00001001";
+signal m9:std_logic_vector (7 downto 0) :=  "00001010";
 
-signal m10 :std_logic_vector(7 downto 0) :=  "00000000";
-signal m11 :std_logic_vector(7 downto 0) :=  "00000000";
+signal m10 :std_logic_vector(7 downto 0) :=  "00001011";
+signal m11 :std_logic_vector(7 downto 0) :=  "00001100";
 
-signal m16 :std_logic_vector(7 downto 0) :=  "00010101";
-signal m17 :std_logic_vector(7 downto 0) :=  "10000100";
+signal m12 :std_logic_vector(7 downto 0) :=  "00001011";
+signal m13 :std_logic_vector(7 downto 0) :=  "00001100";
+
+signal m14 :std_logic_vector(7 downto 0) :=  "00001101";
+signal m15 :std_logic_vector(7 downto 0) :=  "00001110";
+
+signal m16 :std_logic_vector(7 downto 0) :=  "00001111";
+signal m17 :std_logic_vector(7 downto 0) :=  "00010000";
+
+signal m18 :std_logic_vector(7 downto 0) :=  "00010001";
+signal m19 :std_logic_vector(7 downto 0) :=  "00010010";
+
+signal m20 :std_logic_vector(7 downto 0) :=  "00010011";
+signal m21 :std_logic_vector(7 downto 0) :=  "00010100";
+
+
 
 begin
 
