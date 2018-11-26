@@ -131,11 +131,15 @@ elsif(rising_edge(clk))then
 
 		when S4 =>
 			state <= lukhi2;
+
 		when lukhi2 =>
 			state <= S5;
+			next_mem_addr <= mem_addr_in;
+
 		when S5 =>
 			counter <= alu_out;
 			reg_val <= reg_data_in;
+			next_mem_addr <= mem_addr_in;
 			state <= S6;
 
 		when S6 =>

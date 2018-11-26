@@ -359,7 +359,7 @@ controller1: controller port map (
  		lm_out_2 => lm_out_2,
  		sm_out_2 => sm_out_2,
  		mem_addr_in => mem_addr_in,
- 		reg_data_in => rf_d2_3,
+ 		reg_data_in => rf_d1_3,
  		mem_data_in => mem_to_ctrl_data,
  		shifter_bit_0 => shifter_bit_0,
  		next_mem_addr => next_mem_addr,

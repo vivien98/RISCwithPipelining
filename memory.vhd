@@ -25,7 +25,7 @@ signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others 
 --signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
 --signal m2 :std_logic_vector(7 downto 0) :=  "00000000";--adc
 --signal m3 :std_logic_vector(7 downto 0) :=  "01010010";--adc
-signal m0 :std_logic_vector (7 downto 0) := "01100110"; --lm
+signal m0 :std_logic_vector (7 downto 0) := "01110100"; --lm
 signal m1:std_logic_vector (7 downto 0) :=  "01010101";
 
 --signal m2 :std_logic_vector (7 downto 0) := "11000000"; -- beq
