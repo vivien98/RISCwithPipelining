@@ -65,7 +65,8 @@ use ieee.numeric_std.all;
 	   lm_out_2 : out std_logic;
 	   sm_out_2 : out std_logic;
 	   r_b_hzrd:out std_logic_vector(2 downto 0);
-	   r_c_hzrd:out std_logic_vector(2 downto 0)
+	   r_c_hzrd:out std_logic_vector(2 downto 0);
+	   load_hzrd_out_2:out std_logic
 		
      );
 		
@@ -315,7 +316,8 @@ use ieee.numeric_std.all;
 			shift_now:out std_logic;
 			lm_active_now:out std_logic;
 			sm_active_now:out std_logic;
-			load_init_mem_addr:out std_logic
+			load_init_mem_addr:out std_logic;
+			load_hzrd_out_2:in std_logic
 		);
 	end component;
 
@@ -346,7 +348,7 @@ signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_me
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
-signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2 :std_logic;
+signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2.load_hzrd_out_2 :std_logic;
 signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5: std_logic;
 
  begin
@@ -412,7 +414,8 @@ controller1: controller port map (
  		shift_now => shift_now,
  		lm_active_now => lm_active,
  		sm_active_now => sm_active,
- 		load_init_mem_addr => load_init_mem_addr
+ 		load_init_mem_addr => load_init_mem_addr,
+ 		load_hzrd_out_2 => load_hzrd_out_2
  		);
 
 shifter1:shifter port map(
@@ -472,7 +475,8 @@ shifter1:shifter port map(
 	   lm_out_2				  => lm_out_2,
 	   sm_out_2				  => sm_out_2,
 	   r_b_hzrd				  => r_b_hzrd,
-	   r_c_hzrd				  => r_c_hzrd
+	   r_c_hzrd				  => r_c_hzrd,
+	   load_hzrd_out_2 		  => load_hzrd_out_2
  	
  );
 

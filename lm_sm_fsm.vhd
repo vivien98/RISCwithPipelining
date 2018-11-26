@@ -9,6 +9,7 @@ entity controller is
 			valid_2: in std_logic;
 			lm_out_2: in std_logic;
 			sm_out_2: in std_logic;
+			load_hzrd_out_2:in std_logic; 
 			mem_addr_in: in std_logic_vector(15 downto 0);
 			reg_data_in:in std_logic_vector(15 downto 0);
 			mem_data_in:in std_logic_vector(15 downto 0);
@@ -29,7 +30,7 @@ entity controller is
 	end entity;
 architecture atrangi of controller is
 
-type state_type is ( S0,S1,S2,S3,S4,S5,S6,lukhi1,lukhi2);
+type state_type is ( S0,S1,S2,S3,S4,S5,S6,lukhi1,lukhi2,lukhi3);
 signal state : state_type := S0;
 signal alu_out,alu_in,reg_val: std_logic_vector(15 downto 0) ;
 signal counter:std_logic_vector(15 downto 0) := x"0000";
@@ -87,7 +88,7 @@ clk2 <= '1' when state = S0 else
 clk3 <= '1' when state = S0 else
 	  '0' ;
 
-clk4 <= '1' when (state = S0 or state = S1 or state = S4) else
+clk4 <= '1' when (state = S0 or state = S1 or state = S4 or state = lukhi3) else
 	  '0' ;
 
 process(clk,rst)
@@ -101,6 +102,8 @@ elsif(rising_edge(clk))then
 				state <= S1;
 			elsif(valid_2 = '1' and sm_out_2 = '1')then
 				state <= S4;
+			elsif(load_hzrd_out_2 = '1')then
+				state <= lukhi3;
 			else
 				state <= S0;
 			end if;
@@ -153,6 +156,8 @@ elsif(rising_edge(clk))then
 			else
 				state <= S5;
 			end if ;
+		when lukhi3 =>
+			state <= S0;
 	end case;
 
 end if;
