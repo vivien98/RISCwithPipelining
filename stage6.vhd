@@ -14,6 +14,9 @@ use ieee.numeric_std.all;
 
 	   reg_inp_data_ctl: in std_logic;
 	   reg_wr : in std_logic;
+	   	   jlr_yes : in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   stage_5_out_6 : in std_logic_vector(15 downto 0);
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);

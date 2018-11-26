@@ -38,6 +38,7 @@ use ieee.numeric_std.all;
 	   stage4_op: in std_logic_vector(15 downto 0);
 	   stage5_op: in std_logic_vector(15 downto 0);
 	   stage6_op: in std_logic_vector(15 downto 0);
+	   valid_vec_hzrd : in std_logic_vector(2 downto 0);
 
 	   alu_op_i : in std_logic_vector(1 downto 0);
 	   t1 : out std_logic_vector(15 downto 0);
@@ -121,14 +122,14 @@ xor_comp <= ((rf_d11(15) xor rf_d22(15)) or (rf_d11(14) xor rf_d22(14)) or (rf_d
 	             (rf_d11(3) xor rf_d22(3)) or (rf_d11(2) xor rf_d22(2)) or (rf_d11(1) xor rf_d22(1)) or (rf_d11(0) xor rf_d22(0))) and (not rst) ;
 
 
-rf_d11 <=  stage4_op when r_b_hzrd(0) = '1' else
-    	   stage5_op when ((not r_b_hzrd(0)) and r_b_hzrd(1)) = '1' else
-    	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and r_b_hzrd(2)) = '1' else
+rf_d11 <=  stage4_op when (r_b_hzrd(0) and valid_vec_hzrd(0)) = '1' else
+    	   stage5_op when ((not r_b_hzrd(0)) and (r_b_hzrd(1) and valid_vec_hzrd(1))) = '1' else
+    	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and (r_b_hzrd(2) and valid_vec_hzrd(2))) = '1' else
      	   rf_d1 ;
 
-rf_d22 <=  stage4_op when r_c_hzrd(0) = '1' else
-    	   stage5_op when ((not r_c_hzrd(0)) and r_c_hzrd(1)) = '1' else
-    	   stage6_op when ((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and r_c_hzrd(2)) = '1' else
+rf_d22 <=  stage4_op when (r_c_hzrd(0) and valid_vec_hzrd(0)) = '1' else
+    	   stage5_op when ((not r_c_hzrd(0)) and (r_c_hzrd(1) and valid_vec_hzrd(1))) = '1' else
+    	   stage6_op when ((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and (r_c_hzrd(2) and valid_vec_hzrd(2))) = '1' else
      	   rf_d2 ;
 
  stg3:process(clk,rst)

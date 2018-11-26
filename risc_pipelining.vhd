@@ -107,6 +107,7 @@ use ieee.numeric_std.all;
 	   stage4_op: in std_logic_vector(15 downto 0);
 	   stage5_op: in std_logic_vector(15 downto 0);
 	   stage6_op: in std_logic_vector(15 downto 0);
+	   valid_vec_hzrd: in std_logic_vector(2 downto 0);
 
 	   alu_op_i : in std_logic_vector(1 downto 0);
 	   t1 : out std_logic_vector(15 downto 0);
@@ -153,6 +154,9 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6: in std_logic;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
+	   	   jlr_yes : in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
 	   t1  : in std_logic_vector(15 downto 0);
@@ -176,6 +180,9 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
+	   	   jlr_yes_o : out std_logic;
+	   beq_yes_o: out std_logic;
+	   jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic;
 
@@ -199,6 +206,9 @@ use ieee.numeric_std.all;
 	   read_ctrl: in std_logic;
 	   reg_inp_data_ctl_6: in std_logic;
 	   reg_wr_6 : in std_logic;
+	   	   jlr_yes : in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   alu_out_5 : in std_logic_vector(15 downto 0);
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
@@ -214,6 +224,9 @@ use ieee.numeric_std.all;
 	   carry_yes_o :  out std_logic;
 	   zero_yes_o: out std_logic;
 	   p_zero_o : out std_logic;
+	   	   jlr_yes_o : out std_logic;
+	   beq_yes_o: out std_logic;
+	   jal_yes_o: out std_logic;
 
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   reg_wr_6_o : out std_logic;
@@ -242,6 +255,9 @@ use ieee.numeric_std.all;
 	   valid_in : in std_logic;
 	   p_carry_i: in std_logic;
 	   p_zero_i: in std_logic;
+	   	   jlr_yes : in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   reg_inp_data_ctl: in std_logic;
 	   reg_wr : in std_logic;
@@ -330,7 +346,8 @@ signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_me
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
-signal valid_out_33,valid_out_44,valid_out_55 :std_logic;
+signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2 :std_logic;
+signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5: std_logic;
 
  begin
 
@@ -356,6 +373,11 @@ pc_control <= "10" when (jlr_yes_2 and valid_out_2)='1' else
 
 pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_out_2)='1' else 
                  pc_plus_imm_2 when  ((not(beq_yes_2 and (not xor_comp_3) and valid_out_2)) and (valid_out_1 and jal_yes_2)) ='1'; 
+
+
+valid_hzrd_0 <= valid_out_33 and (not beq_yes_3);
+valid_hzrd_1 <= valid_out_44 and (not beq_yes_4);
+valid_hzrd_2 <= valid_out_55 and (not beq_yes_5);
 
 process( clk )
 begin
@@ -454,6 +476,7 @@ shifter1:shifter port map(
  	
  );
 
+
  stg3: stage3
  port map (
  	   clk                        => clkk_3,
@@ -486,7 +509,10 @@ shifter1:shifter port map(
 	   r_c_hzrd					  => r_c_hzrd,
 	   stage4_op				  => stage4_op,
 	   stage5_op				  => stage5_op,
-	   stage6_op				  => stage6_op,				
+	   stage6_op				  => stage6_op,	
+	   valid_vec_hzrd(0)		  => valid_hzrd_0,
+	   valid_vec_hzrd(1)		  => valid_hzrd_1,
+	   valid_vec_hzrd(2)		  => valid_hzrd_2,			
 
 	   alu_op_i                   =>   alu_op_2,
 	   t1                         =>  t1_3,
@@ -531,6 +557,9 @@ shifter1:shifter port map(
 	   reg_inp_data_ctl_6           => reg_inp_data_ctl_6_3,
 	   mem_rd_5                     =>  mem_rd_5_3,
 	   reg_wr_6                     =>  reg_wr_6_3,
+	   beq_yes                    => beq_yes_3,
+	   jlr_yes                    => jlr_yes_3,
+	   jal_yes                    =>  jal_yes_3,
 
 	   reg_a_adr_in                 =>  reg_a_addr_3,
 	   t1                           =>  t1_3,
@@ -554,6 +583,9 @@ shifter1:shifter port map(
 	   reg_inp_data_ctl_6_o         =>   reg_inp_data_ctl_6_4,
 	   mem_rd_5_o                   =>    mem_rd_5_4,
 	   reg_wr_6_o                   =>    reg_wr_6_4,
+	   jlr_yes_o                    => jlr_yes_4,
+	   jal_yes_o                    =>  jal_yes_4,
+	   beq_yes_o                    => beq_yes_4,
 
 	   valid_out                    => valid_out_4,
 
@@ -575,6 +607,9 @@ shifter1:shifter port map(
 	   read_ctrl                =>  mem_rd_5_4 ,
 	   reg_inp_data_ctl_6       => reg_inp_data_ctl_6_4,
 	   reg_wr_6                 =>  reg_wr_6_4,
+	   beq_yes                    => beq_yes_4,
+	   jlr_yes                    => jlr_yes_4,
+	   jal_yes                    =>  jal_yes_4,
 
 	   alu_out_5                =>  alu_out_4,
 	   reg_a_adr_in             =>  reg_a_addr_4,
@@ -595,6 +630,9 @@ shifter1:shifter port map(
 	   reg_wr_6_o               =>  reg_wr_6_5,
 
 	   valid_out                =>  valid_out_5,
+	   jlr_yes_o                    => jlr_yes_5,
+	   jal_yes_o                    =>  jal_yes_5,
+	   beq_yes_o                    => beq_yes_5,
 
 	   mem_addr_in 				=> mem_addr_in,
 	   write_mem_data			=> ctrl_to_mem_data,
@@ -616,6 +654,9 @@ port map (
 	   valid_in               =>  valid_out_55,
 	   p_carry_i              =>  p_carry_5,
 	   p_zero_i               =>  p_zero_5,
+	   jlr_yes                    => jlr_yes_5,
+	   jal_yes                    =>  jal_yes_5,
+	   beq_yes                    => beq_yes_5,
 
 	   reg_inp_data_ctl       =>  reg_inp_data_ctl_6_5,
 	   reg_wr                 =>  reg_wr_6_5,

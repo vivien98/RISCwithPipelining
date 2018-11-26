@@ -15,6 +15,9 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6: in std_logic;
 	   mem_rd_5 : in std_logic;
 	   reg_wr_6 : in std_logic;
+	   	   jlr_yes : in std_logic;
+	   beq_yes: in std_logic;
+	   jal_yes: in std_logic;
 
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
 	   t1  : in std_logic_vector(15 downto 0);
@@ -38,6 +41,9 @@ use ieee.numeric_std.all;
 	   reg_inp_data_ctl_6_o: out std_logic;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
+	   	   jlr_yes_o : out std_logic;
+	   beq_yes_o: out std_logic;
+	   jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic;
 
@@ -93,7 +99,8 @@ imm9_app_16(15 downto 7) <= imm9;
  stage_out1 <= alu_out1 when output_ctrl = '0' else
  				imm9_app_16;
 
- stage4_out_hzrd <= stage_out1;
+ stage4_out_hzrd <= pc_old_i when (jal_yes = '1' or jlr_yes = '1') else
+ 					stage_out1;
 
  stg4:process(clk)
  begin
@@ -113,6 +120,9 @@ imm9_app_16(15 downto 7) <= imm9;
  	mem_rd_5_o <= mem_rd_5;
  	reg_inp_data_ctl_6_o <= reg_inp_data_ctl_6;
  	reg_wr_6_o <= reg_wr_6;
+ 		jal_yes_o <= jal_yes;
+ 	beq_yes_o <= beq_yes;
+ 	jlr_yes_o <= jlr_yes;
 
  end if;
  end process stg4;
