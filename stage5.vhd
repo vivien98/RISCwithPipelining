@@ -42,8 +42,9 @@ use ieee.numeric_std.all;
 	   read_mem_data			: out std_logic_vector(15 downto 0);
 	   write_to_mem				: in std_logic;
 	   lm_active 				: in std_logic;
-	   sm_active 				: in std_logic
+	   sm_active 				: in std_logic;
 
+	   stage5_out_hzrd			: out std_logic_vector(15 downto 0)
 		
      );
 		
@@ -66,7 +67,7 @@ use ieee.numeric_std.all;
 		
   end component ;
 
-signal mem_out,memadr:std_logic_vector (15 downto 0);
+signal mem_out,memadr,stage5_out1:std_logic_vector (15 downto 0);
 signal membr1,membr2,membw1,membw2:std_logic_vector (7 downto 0);
 signal mem_read: std_logic;
 signal valid_out1 : std_logic := '0';
@@ -100,6 +101,10 @@ membw2 <= write_mem_data(7 downto 0) when sm_active='1' else
 	   wr        => mem_read
      );
 
+stage5_out1 <= mem_out when output_ctrl = '1' else
+				alu_out_5 ;
+
+stage5_out_hzrd <= stage5_out1;
 
  stg5:process(clk)
  begin
@@ -107,10 +112,7 @@ membw2 <= write_mem_data(7 downto 0) when sm_active='1' else
  	p_carry_o <= p_carry_i;
  	p_zero_o <= p_zero_i;
 
- 	 case output_ctrl is
-		when '1' =>  stage_5_out <= mem_out;
-		when others =>  stage_5_out <= alu_out_5;
-	 end case;
+ 	 stage_5_out <= stage5_out1;
 
 	 valid_out1 <= valid_in;
 

@@ -22,7 +22,9 @@ use ieee.numeric_std.all;
 	   zero_yes_i: in std_logic;
 	   reg_wr1 : out std_logic;
 	   rrf_d3 : out std_logic_vector(15 downto 0);
-	   valid_out : out std_logic
+	   valid_out : out std_logic;
+
+	   stage6_out_hzrd : out std_logic_vector(15 downto 0)
 		
      );
 		
@@ -47,6 +49,7 @@ use ieee.numeric_std.all;
 		
  -- end component ;
 signal valid_out1 : std_logic := '0';
+signal rrf_d31 : std_logic_vector(15 downto 0);
 
  begin
 
@@ -69,9 +72,10 @@ reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or
 	--   Reg7 => R7
  --    );
 
-  rrf_d3 <= stage_5_out_6 when reg_inp_data_ctl='0' else
+  rrf_d31 <= stage_5_out_6 when reg_inp_data_ctl='0' else
           pc_old_i when reg_inp_data_ctl='1';
-
+  stage6_out_hzrd <= rrf_d31;
+  rrf_d3 <= rrf_d31;
  stg6:process(clk)
  begin
  if rising_edge(clk) then

@@ -31,7 +31,14 @@ use ieee.numeric_std.all;
 	   imm9_i : in std_logic_vector(8 downto 0);
 	   reg_a_addr_i: in std_logic_vector(2 downto 0);
 	   reg_b_addr: in std_logic_vector(2 downto 0);
-	   reg_c_addr: in std_logic_vector(2 downto 0); 
+	   reg_c_addr: in std_logic_vector(2 downto 0);
+
+	   r_b_hzrd: in std_logic_vector(2 downto 0);
+	   r_c_hzrd: in std_logic_vector(2 downto 0); 
+	   stage4_op: in std_logic_vector(15 downto 0);
+	   stage5_op: in std_logic_vector(15 downto 0);
+	   stage6_op: in std_logic_vector(15 downto 0);
+
 	   alu_op_i : in std_logic_vector(1 downto 0);
 	   t1 : out std_logic_vector(15 downto 0);
 	   t2 : out std_logic_vector ( 15 downto 0);
@@ -86,6 +93,7 @@ architecture behave of stage3 is
  -- end component ;
 
 signal valid_out1 : std_logic := '0';
+signal rf_d11,rf_d22 : std_logic_vector(15 downto 0);
 
 begin
 valid_out <= valid_out1;
@@ -107,11 +115,21 @@ valid_out <= valid_out1;
  rf_a2 <= reg_c_addr when reg_addr2_ctl='0' else
           reg_a_addr_i when reg_addr2_ctl='1';
 
-xor_comp <= ((rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13) xor rf_d2(13)) or (rf_d1(12) xor rf_d2(12)) or
-	             (rf_d1(11) xor rf_d2(11)) or (rf_d1(10) xor rf_d2(10)) or (rf_d1(9) xor rf_d2(9)) or (rf_d1(8) xor rf_d2(8)) or
-	             (rf_d1(7) xor rf_d2(7)) or (rf_d1(6) xor rf_d2(6)) or (rf_d1(5) xor rf_d2(5)) or (rf_d1(4) xor rf_d2(4)) or
-	             (rf_d1(3) xor rf_d2(3)) or (rf_d1(2) xor rf_d2(2)) or (rf_d1(1) xor rf_d2(1)) or (rf_d1(0) xor rf_d2(0))) and (not rst) ;
+xor_comp <= ((rf_d11(15) xor rf_d22(15)) or (rf_d11(14) xor rf_d22(14)) or (rf_d11(13) xor rf_d22(13)) or (rf_d11(12) xor rf_d22(12)) or
+	             (rf_d11(11) xor rf_d22(11)) or (rf_d11(10) xor rf_d22(10)) or (rf_d11(9) xor rf_d22(9)) or (rf_d11(8) xor rf_d22(8)) or
+	             (rf_d11(7) xor rf_d22(7)) or (rf_d11(6) xor rf_d22(6)) or (rf_d11(5) xor rf_d22(5)) or (rf_d11(4) xor rf_d22(4)) or
+	             (rf_d11(3) xor rf_d22(3)) or (rf_d11(2) xor rf_d22(2)) or (rf_d11(1) xor rf_d22(1)) or (rf_d11(0) xor rf_d22(0))) and (not rst) ;
 
+
+rf_d11 <=  stage4_op when r_b_hzrd(0) = '1' else
+    	   stage5_op when ((not r_b_hzrd(0)) and r_b_hzrd(1)) = '1' else
+    	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and r_b_hzrd(2)) = '1' else
+     	   rf_d1 ;
+
+rf_d22 <=  stage4_op when r_c_hzrd(0) = '1' else
+    	   stage5_op when ((not r_c_hzrd(0)) and r_c_hzrd(1)) = '1' else
+    	   stage6_op when ((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and r_c_hzrd(2)) = '1' else
+     	   rf_d2 ;
 
  stg3:process(clk,rst)
  begin
@@ -125,9 +143,9 @@ xor_comp <= ((rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13
 	 --end case;
 
 	 valid_out1 <= valid_in;
-	 t1 <= rf_d1;
-	 reg_b_val <= rf_d1;
-	 t2 <= rf_d2;
+	 
+	
+	 
 	 carry_yes_o <= carry_yes_i;
 	 zero_yes_o <= zero_yes_i;
 	 pc_old_o <= pc_old_i;
@@ -147,6 +165,10 @@ xor_comp <= ((rf_d1(15) xor rf_d2(15)) or (rf_d1(14) xor rf_d2(14)) or (rf_d1(13
      jlr_yes_o <= jlr_yes;
      beq_yes_o <= beq_yes;
 
+     reg_b_val <= rf_d11;
+
+     t1 <= rf_d11;
+	 t2 <= rf_d22;
 
 
  end if;

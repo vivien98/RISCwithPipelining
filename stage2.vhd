@@ -32,7 +32,9 @@ use ieee.numeric_std.all;
 	   jal_yes: out std_logic;
 	   valid_out : out std_logic;
 	   lm_out_2:out std_logic;
-	   sm_out_2:out std_logic
+	   sm_out_2:out std_logic;
+	   r_b_hzrd:out std_logic_vector(2 downto 0);
+	   r_c_hzrd:out std_logic_vector(2 downto 0)
 		
      );
 		
@@ -45,10 +47,15 @@ use ieee.numeric_std.all;
   end component;
 
   signal yin,imm6_16,imm9_se_16 : std_logic_vector(15 downto 0);
+  signal r_a1,r_a2,r_a3,r_b,r_c,r_a : std_logic_vector(2 downto 0);
   signal carry1,zero1,pc_plus_imm_ctl: std_logic;
   signal valid_out1 : std_logic := '0';
 
  begin
+
+r_b <= ir(8 downto 6);
+r_c <= ir(5 downto 3);
+r_a <= ir(11 downto 9);
 valid_out <= valid_out1;
    stage_4_alu: alu 
 	port map
@@ -76,6 +83,7 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
 
 
 
+reg_a_addr <= r_a1;
  stg2:process(clk,rst)
  begin
  if(rst='1') then
@@ -87,7 +95,7 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
 
 
 	 valid_out1 <= valid_in;
-	 reg_a_addr <= ir(11 downto 9);
+	 r_a1 <= ir(11 downto 9);
 	 reg_b_addr <= ir(8 downto 6);
 	 reg_c_addr <= ir(5 downto 3);
 	 imm6 <= ir(5 downto 0);
@@ -116,6 +124,16 @@ pc_plus_imm_ctl <= (not ((ir(15)) and (ir(14)) and (not ir(13)) and (not ir(12))
      lm_out_2 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (not ir(12))) and (not rst);
      sm_out_2 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (ir(12))) and (not rst);
 
+     r_b_hzrd(0) <= not ((r_a1(0) xor r_b(0)) or (r_a1(2) xor r_b(2)) or (r_a1(2) xor r_b(2))) ;
+	 r_b_hzrd(1) <= not ((r_a2(0) xor r_b(0)) or (r_a2(2) xor r_b(2)) or (r_a2(2) xor r_b(2))) ;
+	 r_b_hzrd(2) <= not ((r_a3(0) xor r_b(0)) or (r_a3(2) xor r_b(2)) or (r_a3(2) xor r_b(2))) ;
+
+	 r_c_hzrd(0) <= not ((r_a1(0) xor r_c(0)) or (r_a1(2) xor r_c(2)) or (r_a1(2) xor r_c(2))) ;
+	 r_c_hzrd(1) <= not ((r_a2(0) xor r_c(0)) or (r_a2(2) xor r_c(2)) or (r_a2(2) xor r_c(2))) ;
+	 r_c_hzrd(2) <= not ((r_a3(0) xor r_c(0)) or (r_a3(2) xor r_c(2)) or (r_a3(2) xor r_c(2))) ;
+
+	 r_a2 <= r_a1;
+	 r_a3 <= r_a2;
  end if;
  end process stg2;
  	

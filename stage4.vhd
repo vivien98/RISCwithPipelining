@@ -39,7 +39,9 @@ use ieee.numeric_std.all;
 	   mem_rd_5_o : out std_logic;
 	   reg_wr_6_o : out std_logic;
 
-	   valid_out : out std_logic 
+	   valid_out : out std_logic;
+
+	   stage4_out_hzrd : out std_logic_vector(15 downto 0)
 		
      );
 		
@@ -51,7 +53,7 @@ use ieee.numeric_std.all;
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 		
-signal imm6_16,imm9_se_16,imm9_app_16,yin,alu_out1 :std_logic_vector (15 downto 0);
+signal imm6_16,imm9_se_16,imm9_app_16,yin,alu_out1,stage_out1 :std_logic_vector (15 downto 0);
 signal carry1,zero1: std_logic;
 signal valid_out1 : std_logic := '0';
 
@@ -88,15 +90,17 @@ imm9_app_16(15 downto 7) <= imm9;
      imm9_se_16 when input_alu2_ctl = "10" else 
      imm9_app_16 when input_alu2_ctl = "11";
 
+ stage_out1 <= alu_out1 when output_ctrl = '0' else
+ 				imm9_app_16;
+
+ stage4_out_hzrd <= stage_out1;
+
  stg4:process(clk)
  begin
  if rising_edge(clk) then
  	p_carry <= carry1;
  	p_zero <= zero1;
- 	 case output_ctrl is
-		when '0' =>  alu_out <= alu_out1;
-		when others =>  alu_out <= imm9_app_16;
-	 end case;
+ 	 alu_out <= stage_out1;
 	 valid_out1 <= valid_in;
 
  	pc_old_o <= pc_old_i;		
