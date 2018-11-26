@@ -11,6 +11,7 @@ use ieee.numeric_std.all;
 	   jlr_yes : in std_logic;
 	   beq_yes: in std_logic;
 	   jal_yes: in std_logic;
+	   load_lukhi: in std_logic;
 
 	   reg_addr2_ctl : in std_logic;
 	   input_alu2_ctl_4 : in std_logic_vector(1 downto 0);
@@ -67,7 +68,9 @@ use ieee.numeric_std.all;
 	   beq_yes_o: out std_logic;
 	   jal_yes_o: out std_logic;
 
-	   valid_out : out std_logic
+	   valid_out : out std_logic;
+	   load_hzrd_out_2b:in std_logic;
+	   load_hzrd_out_2c:in std_logic
 		
      );
 	  
@@ -123,12 +126,12 @@ xor_comp <= ((rf_d11(15) xor rf_d22(15)) or (rf_d11(14) xor rf_d22(14)) or (rf_d
 
 
 rf_d11 <=  stage4_op when (r_b_hzrd(0) and valid_vec_hzrd(0)) = '1' else
-    	   stage5_op when ((not r_b_hzrd(0)) and (r_b_hzrd(1) and valid_vec_hzrd(1))) = '1' else
+    	   stage5_op when (((not r_b_hzrd(0)) and (r_b_hzrd(1) and valid_vec_hzrd(1))) or load_hzrd_out_2b) = '1' else
     	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and (r_b_hzrd(2) and valid_vec_hzrd(2))) = '1' else
      	   rf_d1 ;
 
 rf_d22 <=  stage4_op when (r_c_hzrd(0) and valid_vec_hzrd(0)) = '1' else
-    	   stage5_op when ((not r_c_hzrd(0)) and (r_c_hzrd(1) and valid_vec_hzrd(1))) = '1' else
+    	   stage5_op when (((not r_c_hzrd(0)) and (r_c_hzrd(1) and valid_vec_hzrd(1))) or load_hzrd_out_2c) = '1' else
     	   stage6_op when ((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and (r_c_hzrd(2) and valid_vec_hzrd(2))) = '1' else
      	   rf_d2 ;
 

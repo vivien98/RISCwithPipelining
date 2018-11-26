@@ -37,6 +37,7 @@ use ieee.numeric_std.all;
     
     port (
 	   clk     : in  std_logic;
+	   hzrd_clk: in std_logic;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
 	   ir : in std_logic_vector(15 downto 0);
@@ -66,7 +67,9 @@ use ieee.numeric_std.all;
 	   sm_out_2 : out std_logic;
 	   r_b_hzrd:out std_logic_vector(2 downto 0);
 	   r_c_hzrd:out std_logic_vector(2 downto 0);
-	   load_hzrd_out_2:out std_logic
+	   load_hzrd_out_2b:out std_logic;
+	   load_hzrd_out_2c:out std_logic;
+	   load_hzrd_out_2 : out std_logic
 		
      );
 		
@@ -81,6 +84,7 @@ use ieee.numeric_std.all;
 	   jlr_yes : in std_logic;
 	   beq_yes: in std_logic;
 	   jal_yes: in std_logic;
+	   	   load_lukhi: in std_logic;
 
 	   reg_addr2_ctl : in std_logic;
 	   input_alu2_ctl_4 : in std_logic_vector(1 downto 0);
@@ -137,7 +141,11 @@ use ieee.numeric_std.all;
 	   beq_yes_o: out std_logic;
 	   jal_yes_o: out std_logic;
 
-	   valid_out : out std_logic
+	   valid_out : out std_logic;
+
+	   load_hzrd_out_2b:in std_logic;
+	   load_hzrd_out_2c:in std_logic
+
 		
      );
 	  
@@ -317,7 +325,8 @@ use ieee.numeric_std.all;
 			lm_active_now:out std_logic;
 			sm_active_now:out std_logic;
 			load_init_mem_addr:out std_logic;
-			load_hzrd_out_2:in std_logic
+			load_hzrd_out_2:in std_logic;
+			load_lukhi:out std_logic
 		);
 	end component;
 
@@ -348,8 +357,8 @@ signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_me
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
-signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2.load_hzrd_out_2 :std_logic;
-signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5: std_logic;
+signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b :std_logic;
+signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi: std_logic;
 
  begin
 
@@ -358,7 +367,7 @@ signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5: std_logic;
  clkk_3 <= clk and clk3;
  clkk_4 <= clk and clk4;
 
-valid_out_33 <= wait_for_lmsm and valid_out_3;
+valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi);
 valid_out_44 <= wait_for_lmsm and valid_out_4;
 valid_out_55 <= wait_for_lmsm and valid_out_5;
  
@@ -380,6 +389,7 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
 valid_hzrd_0 <= valid_out_33 and (not beq_yes_3);
 valid_hzrd_1 <= valid_out_44 and (not beq_yes_4);
 valid_hzrd_2 <= valid_out_55 and (not beq_yes_5);
+
 
 process( clk )
 begin
@@ -415,7 +425,8 @@ controller1: controller port map (
  		lm_active_now => lm_active,
  		sm_active_now => sm_active,
  		load_init_mem_addr => load_init_mem_addr,
- 		load_hzrd_out_2 => load_hzrd_out_2
+   		load_hzrd_out_2        => load_hzrd_out_2,
+ 		load_lukhi => load_lukhi
  		);
 
 shifter1:shifter port map(
@@ -447,6 +458,7 @@ shifter1:shifter port map(
  port map (
 
  	   clk                    => clkk_2,
+ 	   hzrd_clk				  => clk,
 	   rst	                  =>  rst,
 	   valid_in               => valid_in_2,
 	   ir                     => ir_1,
@@ -476,7 +488,9 @@ shifter1:shifter port map(
 	   sm_out_2				  => sm_out_2,
 	   r_b_hzrd				  => r_b_hzrd,
 	   r_c_hzrd				  => r_c_hzrd,
-	   load_hzrd_out_2 		  => load_hzrd_out_2
+	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
+	   load_hzrd_out_2c 	  => load_hzrd_out_2c,
+	   load_hzrd_out_2        => load_hzrd_out_2
  	
  );
 
@@ -496,6 +510,7 @@ shifter1:shifter port map(
 	   reg_inp_data_ctl_6         => reg_inp_data_ctl_6_2,
 	   mem_rd_5                   =>  mem_rd_5_2,
 	   reg_wr_6                   =>  reg_wr_6_2,
+	   load_lukhi                 => load_lukhi,
 
 	   rf_d1                      =>  rf_d1_3,
 	   rf_d2                      =>  rf_d2_3,
@@ -544,7 +559,10 @@ shifter1:shifter port map(
 	   beq_yes_o                  =>  beq_yes_3,
 	   jal_yes_o                  =>  jal_yes_3,
 
-	   valid_out                  =>  valid_out_3
+	   valid_out                  =>  valid_out_3,
+
+	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
+	   load_hzrd_out_2c 	  => load_hzrd_out_2c
  );
 
 
