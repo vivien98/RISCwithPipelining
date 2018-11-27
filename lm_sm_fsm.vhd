@@ -25,7 +25,8 @@ entity controller is
 			lm_active_now:out std_logic;
 			sm_active_now:out std_logic;
 			load_init_mem_addr:out std_logic;
-			load_lukhi:out std_logic
+			load_lukhi3:out std_logic;
+			load_lukhi4:out std_logic
 
 		);
 	end entity;
@@ -74,7 +75,9 @@ write_to_reg <= '1' when (state = S3 and shifter_bit_0 = '1') else
 
 write_to_mem <= '1' when (state = S6 and shifter_bit_0 = '1') else
 				'0';
-load_lukhi <= '1' when (state = lukhi4) else
+
+
+load_lukhi4 <= '1' when (state = lukhi4) else
 			'0';
 write_mem_data <= reg_val;
 write_reg_data <= reg_val;
@@ -100,6 +103,7 @@ if(rst ='1')then
 elsif(rising_edge(clk))then
 	case state is
 		when S0 =>
+			load_lukhi3 <= '0' ;
 			if(valid_2 = '1' and lm_out_2 = '1')then
 				state <= S1;
 			elsif(valid_2 = '1' and sm_out_2 = '1')then
@@ -159,8 +163,10 @@ elsif(rising_edge(clk))then
 				state <= S5;
 			end if ;
 		when lukhi3 =>
+			load_lukhi3 <= '0' ;
 			state <= lukhi4;
 		when lukhi4 =>
+			load_lukhi3 <= '1' ;
 			state <= S0;
 	end case;
 

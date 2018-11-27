@@ -74,7 +74,8 @@ use ieee.numeric_std.all;
 	   load_hzrd_out_2a:out std_logic;
 	   load_hzrd_out_2b:out std_logic;
 	   load_hzrd_out_2c:out std_logic;
-	   load_hzrd_out_2 : out std_logic
+	   load_hzrd_out_2 : out std_logic;
+	   load_lukhi3: in std_logic
 		
      );
 		
@@ -334,7 +335,8 @@ use ieee.numeric_std.all;
 			sm_active_now:out std_logic;
 			load_init_mem_addr:out std_logic;
 			load_hzrd_out_2:in std_logic;
-			load_lukhi:out std_logic
+			load_lukhi3:out std_logic;
+			load_lukhi4:out std_logic
 		);
 	end component;
 
@@ -366,7 +368,7 @@ signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_dat
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
 signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2a,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b,read_from_a :std_logic;
-signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi: std_logic;
+signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4: std_logic;
 
  begin
 
@@ -375,7 +377,7 @@ signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi: s
  clkk_3 <= clk and clk3;
  clkk_4 <= clk and clk4;
 
-valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi);
+valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi4);
 valid_out_44 <= wait_for_lmsm and valid_out_4;
 valid_out_55 <= wait_for_lmsm and valid_out_5;
  
@@ -434,7 +436,8 @@ controller1: controller port map (
  		sm_active_now => sm_active,
  		load_init_mem_addr => load_init_mem_addr,
    		load_hzrd_out_2        => load_hzrd_out_2,
- 		load_lukhi => load_lukhi
+   		load_lukhi3 => load_lukhi3,
+ 		load_lukhi4 => load_lukhi4
  		);
 
 shifter1:shifter port map(
@@ -501,7 +504,8 @@ shifter1:shifter port map(
 	   load_hzrd_out_2a		  => load_hzrd_out_2a,
 	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
 	   load_hzrd_out_2c 	  => load_hzrd_out_2c,
-	   load_hzrd_out_2        => load_hzrd_out_2
+	   load_hzrd_out_2        => load_hzrd_out_2,
+	   load_lukhi3			  => load_lukhi3
  	
  );
 
@@ -521,7 +525,7 @@ shifter1:shifter port map(
 	   reg_inp_data_ctl_6         => reg_inp_data_ctl_6_2,
 	   mem_rd_5                   =>  mem_rd_5_2,
 	   reg_wr_6                   =>  reg_wr_6_2,
-	   load_lukhi                 => load_lukhi,
+	   load_lukhi                 => load_lukhi4,
 
 	   rf_d1                      =>  rf_d1_3,
 	   rf_d2                      =>  rf_d2_3,
