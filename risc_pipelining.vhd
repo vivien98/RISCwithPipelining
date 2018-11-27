@@ -47,9 +47,12 @@ use ieee.numeric_std.all;
 	   pc_old_o		: out std_logic_vector(15 downto 0);
 	   imm6 : out std_logic_vector(5 downto 0);
 	   imm9 : out std_logic_vector(8 downto 0);
+
+	   read_from_a: out std_logic;
 	   reg_a_addr: out std_logic_vector(2 downto 0);
 	   reg_b_addr: out std_logic_vector(2 downto 0);
 	   reg_c_addr: out std_logic_vector(2 downto 0); 
+
 	   alu_op : out std_logic_vector(1 downto 0);
 	   pc_plus_imm: out std_logic_vector(15 downto 0);
 	   reg_addr2_ctl_3 : out std_logic;
@@ -65,8 +68,10 @@ use ieee.numeric_std.all;
 	   valid_out : out std_logic;
 	   lm_out_2 : out std_logic;
 	   sm_out_2 : out std_logic;
+	   r_a_hzrd: out std_logic_vector(2 downto 0);
 	   r_b_hzrd:out std_logic_vector(2 downto 0);
 	   r_c_hzrd:out std_logic_vector(2 downto 0);
+	   load_hzrd_out_2a:out std_logic;
 	   load_hzrd_out_2b:out std_logic;
 	   load_hzrd_out_2c:out std_logic;
 	   load_hzrd_out_2 : out std_logic
@@ -107,6 +112,8 @@ use ieee.numeric_std.all;
 	   reg_b_addr: in std_logic_vector(2 downto 0);
 	   reg_c_addr: in std_logic_vector(2 downto 0); 
 
+	   read_from_a: in std_logic;
+	   r_a_hzrd: in std_logic_vector(2 downto 0);
 	   r_b_hzrd: in std_logic_vector(2 downto 0);
 	   r_c_hzrd: in std_logic_vector(2 downto 0); 
 	   stage4_op: in std_logic_vector(15 downto 0);
@@ -143,6 +150,7 @@ use ieee.numeric_std.all;
 
 	   valid_out : out std_logic;
 
+	   load_hzrd_out_2a:in std_logic;
 	   load_hzrd_out_2b:in std_logic;
 	   load_hzrd_out_2c:in std_logic
 
@@ -355,9 +363,9 @@ signal  pc_control_decider: std_logic;
 
 signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_mem,write_to_reg,load_init_mem_addr,lm_active,sm_active,rf_wr:std_logic;
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
-signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd:std_logic_vector(2 downto 0);
+signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
-signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b :std_logic;
+signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2a,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b,read_from_a :std_logic;
 signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi: std_logic;
 
  begin
@@ -486,8 +494,11 @@ shifter1:shifter port map(
 	   valid_out              => valid_out_2,
 	   lm_out_2				  => lm_out_2,
 	   sm_out_2				  => sm_out_2,
+	   read_from_a			  => read_from_a,
+	   r_a_hzrd				  => r_a_hzrd,
 	   r_b_hzrd				  => r_b_hzrd,
 	   r_c_hzrd				  => r_c_hzrd,
+	   load_hzrd_out_2a		  => load_hzrd_out_2a,
 	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
 	   load_hzrd_out_2c 	  => load_hzrd_out_2c,
 	   load_hzrd_out_2        => load_hzrd_out_2
@@ -524,6 +535,8 @@ shifter1:shifter port map(
 	   reg_b_addr                 =>  reg_b_addr_2,
 	   reg_c_addr                 => reg_c_addr_2,
 
+	   read_from_a				  => read_from_a,
+	   r_a_hzrd					  => r_a_hzrd,
 	   r_b_hzrd					  => r_b_hzrd,
 	   r_c_hzrd					  => r_c_hzrd,
 	   stage4_op				  => stage4_op,
@@ -561,6 +574,7 @@ shifter1:shifter port map(
 
 	   valid_out                  =>  valid_out_3,
 
+	   load_hzrd_out_2a		  => load_hzrd_out_2a,
 	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
 	   load_hzrd_out_2c 	  => load_hzrd_out_2c
  );

@@ -28,8 +28,8 @@ entity reg_file is
  signal r1:std_logic_vector(15 downto 0):= x"0005";
  signal r2:std_logic_vector(15 downto 0):= x"0002";
  signal r3:std_logic_vector(15 downto 0):= x"0004";
- signal r4:std_logic_vector(15 downto 0):= x"0040";
- signal r5:std_logic_vector(15 downto 0) := x"0D0D"; 
+ signal r4:std_logic_vector(15 downto 0):= x"0000";
+ signal r5:std_logic_vector(15 downto 0) := x"0001"; 
  signal r6:std_logic_vector(15 downto 0) := x"0EE0"; 
  signal r7:std_logic_vector(15 downto 0) := x"0F0F"; 
  

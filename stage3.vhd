@@ -1,4 +1,4 @@
-library ieee;
+	library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
@@ -34,8 +34,10 @@ use ieee.numeric_std.all;
 	   reg_b_addr: in std_logic_vector(2 downto 0);
 	   reg_c_addr: in std_logic_vector(2 downto 0);
 
+	   r_a_hzrd:in std_logic_vector(2 downto 0);
 	   r_b_hzrd: in std_logic_vector(2 downto 0);
-	   r_c_hzrd: in std_logic_vector(2 downto 0); 
+	   r_c_hzrd: in std_logic_vector(2 downto 0);
+	   read_from_a:in std_logic; 
 	   stage4_op: in std_logic_vector(15 downto 0);
 	   stage5_op: in std_logic_vector(15 downto 0);
 	   stage6_op: in std_logic_vector(15 downto 0);
@@ -69,6 +71,7 @@ use ieee.numeric_std.all;
 	   jal_yes_o: out std_logic;
 
 	   valid_out : out std_logic;
+	   load_hzrd_out_2a:in std_logic;
 	   load_hzrd_out_2b:in std_logic;
 	   load_hzrd_out_2c:in std_logic
 		
@@ -126,13 +129,13 @@ xor_comp <= ((rf_d11(15) xor rf_d22(15)) or (rf_d11(14) xor rf_d22(14)) or (rf_d
 
 
 rf_d11 <=  stage4_op when (r_b_hzrd(0) and valid_vec_hzrd(0)) = '1' else
-    	   stage5_op when (((not r_b_hzrd(0)) and (r_b_hzrd(1) and valid_vec_hzrd(1))) or load_hzrd_out_2b) = '1' else
-    	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and (r_b_hzrd(2) and valid_vec_hzrd(2))) = '1' else
+    	   stage5_op when ((((not r_b_hzrd(0)) and (r_b_hzrd(1))) or load_hzrd_out_2b) and valid_vec_hzrd(1)) = '1' else
+    	   stage6_op when ((not r_b_hzrd(0)) and (not r_b_hzrd(1)) and r_b_hzrd(2) and valid_vec_hzrd(2)) = '1' else
      	   rf_d1 ;
 
-rf_d22 <=  stage4_op when (r_c_hzrd(0) and valid_vec_hzrd(0)) = '1' else
-    	   stage5_op when (((not r_c_hzrd(0)) and (r_c_hzrd(1) and valid_vec_hzrd(1))) or load_hzrd_out_2c) = '1' else
-    	   stage6_op when ((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and (r_c_hzrd(2) and valid_vec_hzrd(2))) = '1' else
+rf_d22 <=  stage4_op when (((r_c_hzrd(0) and (not read_from_a))or(r_a_hzrd(0) and (read_from_a))) and valid_vec_hzrd(0)) = '1' else
+    	   stage5_op when ((((((not r_c_hzrd(0)) and r_c_hzrd(1)) or load_hzrd_out_2c) and (not read_from_a)) or (((((not r_a_hzrd(0)) and r_a_hzrd(1)) or load_hzrd_out_2a) and (read_from_a)))) and valid_vec_hzrd(1))  = '1' else
+    	   stage6_op when ((((not r_c_hzrd(0)) and (not r_c_hzrd(1)) and r_c_hzrd(2) and (not read_from_a)) or ((not r_a_hzrd(0)) and (not r_a_hzrd(1)) and r_a_hzrd(2) and (read_from_a))) and valid_vec_hzrd(2)) = '1' else
      	   rf_d2 ;
 
  stg3:process(clk,rst)

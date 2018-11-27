@@ -34,8 +34,11 @@ use ieee.numeric_std.all;
 	   valid_out : out std_logic;
 	   lm_out_2:out std_logic;
 	   sm_out_2:out std_logic;
+	   r_a_hzrd: out std_logic_vector(2 downto 0);
 	   r_b_hzrd:out std_logic_vector(2 downto 0);
 	   r_c_hzrd:out std_logic_vector(2 downto 0);
+	   read_from_a:out std_logic;
+	   load_hzrd_out_2a:out std_logic;
 	   load_hzrd_out_2b:out std_logic;
 	   load_hzrd_out_2c:out std_logic;
 	   load_hzrd_out_2 : out std_logic
@@ -53,7 +56,7 @@ use ieee.numeric_std.all;
   signal yin,imm6_16,imm9_se_16 : std_logic_vector(15 downto 0);
   signal r_a1,r_a2,r_a3,r_b,r_c,r_a : std_logic_vector(2 downto 0);
   signal carry1,zero1,pc_plus_imm_ctl: std_logic;
-  signal sw_yes1,lm_yes1,sm_yes1,adi_yes1,lw_yes1,beq_yes1,lhi_yes1,lw_prev1,jal_yes1,r_b_hzrd1,r_c_hzrd1:std_logic;
+  signal sw_yes1,lm_yes1,sm_yes1,adi_yes1,lw_yes1,beq_yes1,lhi_yes1,lw_prev1,jal_yes1,r_a_hzrd1,r_b_hzrd1,r_c_hzrd1:std_logic;
   signal valid_out1 : std_logic := '0';
 
  begin
@@ -94,12 +97,13 @@ lm_yes1 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (not ir(12))) and (not rs
 sm_yes1 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (ir(12))) and (not rst);
 beq_yes1 <= ((ir(15)) and ir(14) and (not ir(13)) and (not ir(12))) and (not rst);
 lhi_yes1 <= ((not ir(15)) and (not ir(14)) and (ir(13)) and (ir(12))) and (not rst);
+sw_yes1 <= ((not ir(15)) and (ir(14)) and (not ir(13)) and (ir(12))) and (not rst);
 
 reg_a_addr <= r_a1;
 
-
-r_b_hzrd1 <= not ((r_a1(0) xor r_b(0)) or (r_a1(2) xor r_b(2)) or (r_a1(2) xor r_b(2))) and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
-r_c_hzrd1 <= (not ((r_a1(0) xor r_c(0)) or (r_a1(2) xor r_c(2)) or (r_a1(2) xor r_c(2))) and (not(lw_yes1 or adi_yes1 or lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1 or jal_yes1 or lhi_yes1))) or ((not ((r_a1(0) xor r_a(0)) or (r_a1(2) xor r_a(2)) or (r_a1(2) xor r_a(2))))and (( lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1)));
+r_a_hzrd1 <= not ((r_a1(0) xor r_a(0)) or (r_a1(1) xor r_a(1)) or (r_a1(2) xor r_a(2)));
+r_b_hzrd1 <= not ((r_a1(0) xor r_b(0)) or (r_a1(1) xor r_b(1)) or (r_a1(2) xor r_b(2))); --and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
+r_c_hzrd1 <= not ((r_a1(0) xor r_c(0)) or (r_a1(1) xor r_c(1)) or (r_a1(2) xor r_c(2))); --and (not(lw_yes1 or adi_yes1 or lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1 or jal_yes1 or lhi_yes1))) or ((not ((r_a1(0) xor r_a(0)) or (r_a1(2) xor r_a(2)) or (r_a1(2) xor r_a(2))))and (( lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1)));
 
 load_hzrd_out_2 <=  (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_b_hzrd1)) or (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_c_hzrd1));
 
@@ -143,6 +147,10 @@ load_hzrd_out_2 <=  (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_b_hzrd1)) 
      lm_out_2 <= lm_yes1;
      sm_out_2 <= sm_yes1;
 
+     r_a_hzrd(0) <= (not ((r_a1(0) xor r_a(0)) or (r_a1(1) xor r_a(1)) or (r_a1(2) xor r_a(2))));-- and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
+	 r_a_hzrd(1) <= (not ((r_a2(0) xor r_a(0)) or (r_a2(1) xor r_a(1)) or (r_a2(2) xor r_a(2)))) ;--and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
+	 r_a_hzrd(2) <= (not ((r_a3(0) xor r_a(0)) or (r_a3(1) xor r_a(1)) or (r_a3(2) xor r_a(2))));
+
      r_b_hzrd(0) <= (not ((r_a1(0) xor r_b(0)) or (r_a1(1) xor r_b(1)) or (r_a1(2) xor r_b(2))));-- and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
 	 r_b_hzrd(1) <= (not ((r_a2(0) xor r_b(0)) or (r_a2(1) xor r_b(1)) or (r_a2(2) xor r_b(2)))) ;--and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
 	 r_b_hzrd(2) <= (not ((r_a3(0) xor r_b(0)) or (r_a3(1) xor r_b(1)) or (r_a3(2) xor r_b(2))));-- and (not(lm_yes1 or sm_yes1 or lhi_yes1 or jal_yes1)) ;
@@ -150,10 +158,18 @@ load_hzrd_out_2 <=  (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_b_hzrd1)) 
 	 r_c_hzrd(0) <= (not ((r_a1(0) xor r_c(0)) or (r_a1(1) xor r_c(1)) or (r_a1(2) xor r_c(2)))) ;--and (not(lw_yes1 or adi_yes1 or lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1 or jal_yes1 or lhi_yes1))) or ((not ((r_a1(0) xor r_a(0)) or (r_a1(1) xor r_a(1)) or (r_a1(2) xor r_a(2))))and (( lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1)));
 	 r_c_hzrd(1) <= (not ((r_a2(0) xor r_c(0)) or (r_a2(1) xor r_c(1)) or (r_a2(2) xor r_c(2)))) ;--and (not(lw_yes1 or adi_yes1 or lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1 or jal_yes1 or lhi_yes1))) or ((not ((r_a2(0) xor r_a(0)) or (r_a2(1) xor r_a(1)) or (r_a2(2) xor r_a(2))))and (( lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1)));
 	 r_c_hzrd(2) <= (not ((r_a3(0) xor r_c(0)) or (r_a3(1) xor r_c(1)) or (r_a3(2) xor r_c(2))));-- and (not(lw_yes1 or adi_yes1 or lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1 or jal_yes1 or lhi_yes1))) or ((not ((r_a3(0) xor r_a(0)) or (r_a3(1) xor r_a(1)) or (r_a3(2) xor r_a(2))))and (( lm_yes1 or sm_yes1 or beq_yes1 or sw_yes1)));
-	  lw_prev1 <= lw_yes1;
+	 
+	 read_from_a <= lm_yes1 or sm_yes1 or sw_yes1 or beq_yes1;
 
+	 lw_prev1 <= lw_yes1;
+
+	 load_hzrd_out_2a <= lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_a_hzrd1);
 	 load_hzrd_out_2b <= lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_b_hzrd1);
 	 load_hzrd_out_2c <= lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_c_hzrd1);
+
+end if;
+
+if(rising_edge(hzrd_clk) and rst='0')then
 	
 	 r_a2 <= r_a1;
 	 r_a3 <= r_a2;
