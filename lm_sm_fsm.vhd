@@ -32,7 +32,7 @@ entity controller is
 	end entity;
 architecture atrangi of controller is
 
-type state_type is ( S0,S1,S2,S3,S4,S5,S6,lukhi1,lukhi2,lukhi3,lukhi4);
+type state_type is ( S0,S1,S2,S3,S4,S5,S6,lukhi1,lukhi2,lukhi3,lukhi4,lukhi5);
 signal state : state_type := S0;
 signal alu_out,alu_in,reg_val: std_logic_vector(15 downto 0) ;
 signal counter:std_logic_vector(15 downto 0) := x"0000";
@@ -77,7 +77,7 @@ write_to_mem <= '1' when (state = S6 and shifter_bit_0 = '1') else
 				'0';
 
 
-load_lukhi4 <= '1' when (state = lukhi4) else
+load_lukhi4 <= '1' when (state = lukhi4  or state = lukhi5) else
 			'0';
 write_mem_data <= reg_val;
 write_reg_data <= reg_val;
@@ -93,7 +93,7 @@ clk2 <= '1' when state = S0 else
 clk3 <= '1' when state = S0 else
 	  '0' ;
 
-clk4 <= '1' when (state = S0 or state = S1 or state = S4 or state = lukhi3 or state = lukhi4) else
+clk4 <= '1' when (state = S0 or state = S1 or state = S4 or state = lukhi3 or state = lukhi4 or state = lukhi5) else
 	  '0' ;
 
 process(clk,rst)
@@ -167,6 +167,8 @@ elsif(rising_edge(clk))then
 			state <= lukhi4;
 		when lukhi4 =>
 			load_lukhi3 <= '1' ;
+			state <= lukhi5;
+		when lukhi5 =>
 			state <= S0;
 	end case;
 

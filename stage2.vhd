@@ -108,14 +108,11 @@ r_c_hzrd1 <= not ((r_a1(0) xor r_c(0)) or (r_a1(1) xor r_c(1)) or (r_a1(2) xor r
 
 load_hzrd_out_2 <=  (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_b_hzrd1)) or (lw_prev1 and (not (jal_yes1 or lhi_yes1)) and (r_c_hzrd1));
 
-r_a_hzrd <= r_a_hzrdx when load_lukhi3 = '1'else
-			r_a_hzrdn;
+r_a_hzrd <= r_a_hzrdn;
 
-r_b_hzrd <= r_b_hzrdx when load_lukhi3 = '1'else
-			r_b_hzrdn;
+r_b_hzrd <= r_b_hzrdn;
 
-r_c_hzrd <= r_c_hzrdx when load_lukhi3 = '1'else
-			r_c_hzrdn;
+r_c_hzrd <= r_c_hzrdn;
 
 
  stg2:process(hzrd_clk,clk,rst)
