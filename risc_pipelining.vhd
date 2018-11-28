@@ -75,7 +75,10 @@ use ieee.numeric_std.all;
 	   load_hzrd_out_2b:out std_logic;
 	   load_hzrd_out_2c:out std_logic;
 	   load_hzrd_out_2 : out std_logic;
-	   load_lukhi3: in std_logic
+	   load_lukhi3: in std_logic;
+	   ra_is_r7 : out std_logic;
+	   rb_is_r7 : out std_logic;
+	   rc_is_r7 : out std_logic
 		
      );
 		
@@ -153,7 +156,11 @@ use ieee.numeric_std.all;
 
 	   load_hzrd_out_2a:in std_logic;
 	   load_hzrd_out_2b:in std_logic;
-	   load_hzrd_out_2c:in std_logic
+	   load_hzrd_out_2c:in std_logic;
+
+	   ra_is_r7 : in std_logic;
+	   rb_is_r7 : in std_logic;
+	   rc_is_r7 : in std_logic
 
 		
      );
@@ -288,7 +295,7 @@ use ieee.numeric_std.all;
 	   reg_wr1 : out std_logic;
 	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic;
-
+	   pc_to_r7 : out std_logic_vector(15 downto 0);
 	   stage6_out_hzrd : out std_logic_vector(15 downto 0)
 		
      );
@@ -345,7 +352,7 @@ use ieee.numeric_std.all;
 	end component;
 
 signal  reg_b_val_3,pc_plus_imm_1,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
-signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7 : std_logic_vector(15 downto 0);
+signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7,pc_to_r7 : std_logic_vector(15 downto 0);
 
 
 signal  imm9_2,imm9_3: std_logic_vector(8 downto 0);
@@ -362,7 +369,7 @@ signal  reg_wr_6_2,reg_wr_6_3,reg_wr_6_4,reg_wr_6_5,reg_inp_data_ctl_6_2,reg_inp
 signal  beq_yes_2,beq_yes_3,jlr_yes_2,jlr_yes_3,jal_yes_2,jal_yes_3,xor_comp_3,reg_wr1_6 :std_logic;
 signal  valid_in_1,valid_in_2,valid_decider_1,valid_decider_2 : std_logic;
 signal  pc_control_decider: std_logic;
-
+signal  ra_is_r7,rb_is_r7,rc_is_r7: std_logic;
 signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_mem,write_to_reg,load_init_mem_addr,lm_active,sm_active,rf_wr:std_logic;
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
@@ -505,7 +512,10 @@ shifter1:shifter port map(
 	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
 	   load_hzrd_out_2c 	  => load_hzrd_out_2c,
 	   load_hzrd_out_2        => load_hzrd_out_2,
-	   load_lukhi3			  => load_lukhi3
+	   load_lukhi3			  => load_lukhi3,
+	   ra_is_r7				  => ra_is_r7,	
+	   rb_is_r7				  => rb_is_r7,
+	   rc_is_r7 			  => rc_is_r7
  	
  );
 
@@ -580,7 +590,10 @@ shifter1:shifter port map(
 
 	   load_hzrd_out_2a		  => load_hzrd_out_2a,
 	   load_hzrd_out_2b 	  => load_hzrd_out_2b,
-	   load_hzrd_out_2c 	  => load_hzrd_out_2c
+	   load_hzrd_out_2c 	  => load_hzrd_out_2c,
+	   ra_is_r7				  => ra_is_r7,	
+	   rb_is_r7				  => rb_is_r7,
+	   rc_is_r7 			  => rc_is_r7
  );
 
 
@@ -710,7 +723,8 @@ port map (
 	   rrf_d3                 =>   rrf_d3_6,
 	   valid_out              =>   valid_out_6,
 
-	   stage6_out_hzrd		  =>   stage6_op
+	   stage6_out_hzrd		  =>   stage6_op,
+	   pc_to_r7 			  => pc_to_r7
 	
 );
 
@@ -727,7 +741,7 @@ port map (
 	   rf_d1      => rf_d1_3,
 	   rf_d2      => rf_d2_3,
 	   rf_d3      => rf_d3,
-	   Reg7 => R7
+	   Reg7 => pc_to_r7
      );
 
  rf_a1	<= ctrl_to_reg_addr when sm_active = '1' else

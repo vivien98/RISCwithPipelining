@@ -42,7 +42,10 @@ use ieee.numeric_std.all;
 	   load_hzrd_out_2b:out std_logic;
 	   load_hzrd_out_2c:out std_logic;
 	   load_hzrd_out_2 : out std_logic;
-	   load_lukhi3:in std_logic
+	   load_lukhi3:in std_logic;
+	   ra_is_r7:out std_logic;
+	   rb_is_r7:out std_logic;
+	   rc_is_r7 : out std_logic
 		
      );
 		
@@ -63,6 +66,7 @@ use ieee.numeric_std.all;
  begin
 
  jal_yes <= jal_yes1;
+
 
 r_b <= ir(8 downto 6);
 r_c <= ir(5 downto 3);
@@ -122,8 +126,9 @@ r_c_hzrd <= r_c_hzrdn;
 	jlr_yes <= '0';
  elsif rising_edge(clk) then
 
-
-
+ 	 ra_is_r7 <= ir(11) and ir(10) and ir(9);
+ 	 rb_is_r7 <= ir(8) and ir(7) and ir(6);
+ 	 rc_is_r7 <= ir(5) and ir(4) and ir(3);
 	 valid_out1 <= valid_in;
 	 r_a1 <= ir(11 downto 9);
 	 reg_b_addr <= ir(8 downto 6);

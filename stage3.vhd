@@ -73,7 +73,11 @@ use ieee.numeric_std.all;
 	   valid_out : out std_logic;
 	   load_hzrd_out_2a:in std_logic;
 	   load_hzrd_out_2b:in std_logic;
-	   load_hzrd_out_2c:in std_logic
+	   load_hzrd_out_2c:in std_logic;
+
+	   ra_is_r7:in std_logic;
+	   rb_is_r7:in std_logic;
+	   rc_is_r7 : in std_logic
 		
      );
 	  
@@ -128,12 +132,15 @@ xor_comp <= ((rf_d11(15) xor rf_d22(15)) or (rf_d11(14) xor rf_d22(14)) or (rf_d
 	             (rf_d11(3) xor rf_d22(3)) or (rf_d11(2) xor rf_d22(2)) or (rf_d11(1) xor rf_d22(1)) or (rf_d11(0) xor rf_d22(0))) and (not rst) ;
 
 
-rf_d11 <=  stage4_op when (r_b_hzrd(0) and valid_vec_hzrd(0)) = '1' else
+rf_d11 <=  pc_old_i when rb_is_r7 = '1' else
+		   stage4_op when (r_b_hzrd(0) and valid_vec_hzrd(0)) = '1' else
     	   stage5_op when (((((not r_b_hzrd(0)) or (not valid_vec_hzrd(0))) and (r_b_hzrd(1)))) and valid_vec_hzrd(1)) = '1' else
     	   stage6_op when (((((not r_b_hzrd(0)) or (not valid_vec_hzrd(0))) and ((not r_b_hzrd(1)) or (not valid_vec_hzrd(1))) and r_b_hzrd(2)) or load_hzrd_out_2b) and valid_vec_hzrd(2)) = '1' else
      	   rf_d1 ;
 
-rf_d22 <=  stage4_op when (((r_c_hzrd(0) and (not read_from_a))or(r_a_hzrd(0) and (read_from_a))) and valid_vec_hzrd(0)) = '1' else
+rf_d22 <=  pc_old_i when (ra_is_r7 = '1'  and read_from_a = '1' )else
+		   pc_old_i when (rc_is_r7 = '1' and read_from_a = '0' ) else
+ 		   stage4_op when (((r_c_hzrd(0) and (not read_from_a))or(r_a_hzrd(0) and (read_from_a))) and valid_vec_hzrd(0)) = '1' else
     	   stage5_op when (((((((not r_c_hzrd(0)) or (not valid_vec_hzrd(0))) and r_c_hzrd(1))) and (not read_from_a)) or ((((((not r_a_hzrd(0)) or (not valid_vec_hzrd(0))) and r_a_hzrd(1)) or load_hzrd_out_2a) and (read_from_a)))) and valid_vec_hzrd(1))  = '1' else
     	   stage6_op when ((((((not r_c_hzrd(0)) or (not valid_vec_hzrd(0))) and ((not r_c_hzrd(1)) or (not valid_vec_hzrd(1))) and r_c_hzrd(2) and (not read_from_a)) or load_hzrd_out_2c) or (((((not r_a_hzrd(0)) or (not valid_vec_hzrd(0))) and ((not r_a_hzrd(1)) or (not valid_vec_hzrd(1))) and r_a_hzrd(2))or load_hzrd_out_2a) and (read_from_a))) and valid_vec_hzrd(2)) = '1' else
      	   rf_d2 ;

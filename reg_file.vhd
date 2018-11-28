@@ -107,7 +107,7 @@ entity reg_file is
 				r7 <= Reg7;
 				when "110" =>  r6 <= rf_d3;
 				r7 <= Reg7;
-				when others =>  r7 <= rf_d3;
+				when others =>  r7 <= Reg7;
 			end case;
 		elsif(wr = '0')then
 			r7 <= Reg7;

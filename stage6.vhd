@@ -27,8 +27,8 @@ use ieee.numeric_std.all;
 	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic;
 
-	   stage6_out_hzrd : out std_logic_vector(15 downto 0)
-		
+	   stage6_out_hzrd : out std_logic_vector(15 downto 0);
+		pc_to_r7 : out std_logic_vector(15 downto 0)
      );
 		
  end entity ;
@@ -57,7 +57,7 @@ signal rrf_d31 : std_logic_vector(15 downto 0);
  begin
 
  valid_out <= valid_out1;
-
+pc_to_r7 <= pc_old_i;
 reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)) and valid_in; 		
 
  --reg_writing: reg_file
