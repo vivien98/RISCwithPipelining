@@ -37,8 +37,8 @@ signal m1 :std_logic_vector(7 downto 0) :=  "00111000";--sw
 --signal m1:std_logic_vector (7 downto 0) :=  "00001000";
 
 
-signal m2 :std_logic_vector(7 downto 0) :=  "01000001"; 
-signal m3 :std_logic_vector(7 downto 0) :=  "11000001";
+signal m2 :std_logic_vector(7 downto 0) :=  "01111111"; 
+signal m3 :std_logic_vector(7 downto 0) :=  "10101010";
 
 --signal m2 :std_logic_vector(7 downto 0) :=  "00001010";
 --signal m3 :std_logic_vector(7 downto 0) :=  "10111000";

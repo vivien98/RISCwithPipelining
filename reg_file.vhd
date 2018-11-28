@@ -111,7 +111,7 @@ entity reg_file is
 				when others =>  r7 <= Reg7;
 			end case;
 		elsif (wr_7 = '1') then
-			r7 <= Reg7		
+			r7 <= Reg7;		
 		elsif(wr = '0')then
 			--r7 <= Reg7;
 		end if;

@@ -17,7 +17,7 @@ use ieee.numeric_std.all;
 	   	   jlr_yes : in std_logic;
 	   beq_yes: in std_logic;
 	   jal_yes: in std_logic;
-
+	   sm_active : in std_logic;
 	   stage_5_out_6 : in std_logic_vector(15 downto 0);
 	   reg_a_adr_in: in std_logic_vector(2 downto 0);
 	   pc_old_i		: in std_logic_vector(15 downto 0);
@@ -56,7 +56,7 @@ signal valid_out1 : std_logic := '0';
 signal rrf_d31 : std_logic_vector(15 downto 0);
 
  begin
- wr_7 <= valid_in;
+ wr_7 <= valid_in or sm_active;
  valid_out <= valid_out1;
 pc_to_r7 <= pc_to_r7i;
 reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)) and valid_in; 		

@@ -26,8 +26,8 @@ entity controller is
 			sm_active_now:out std_logic;
 			load_init_mem_addr:out std_logic;
 			load_lukhi3:out std_logic;
-			load_lukhi4:out std_logic
-
+			load_lukhi4:out std_logic;
+			sm_active_7 : out std_logic
 		);
 	end entity;
 architecture atrangi of controller is
@@ -95,7 +95,8 @@ clk3 <= '1' when state = S0 else
 
 clk4 <= '1' when (state = S0 or state = S1 or state = S4 or state = lukhi3 or state = lukhi4 or state = lukhi5) else
 	  '0' ;
-
+sm_active_7 <= not(counter(0) or counter(1) or counter(2)) when (state = S6) else  
+					'0';
 process(clk,rst)
 begin
 if(rst ='1')then

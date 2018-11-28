@@ -275,6 +275,7 @@ use ieee.numeric_std.all;
   component stage6 is
     
     port (
+    	sm_active : in std_logic;
     	pc_to_r7i : in std_logic_vector (15 downto 0);
 	   clk     : in  std_logic;
 	   rst		: in std_logic;
@@ -310,7 +311,7 @@ use ieee.numeric_std.all;
 	   clk        : in   std_logic;
 	   rst        : in   std_logic;
 	   wr         : in   std_logic;
-	   wr_7         : in   std_logic
+	   wr_7         : in   std_logic;
 	   rf_a1      : in  std_logic_vector(2 downto 0);
 	   rf_a2      : in  std_logic_vector(2 downto 0);
 	   rf_a3      : in  std_logic_vector(2 downto 0);
@@ -324,6 +325,7 @@ use ieee.numeric_std.all;
 
   component controller is 
 	port(
+			sm_active_7 : out std_logic;
 			clk: in std_logic;
 			rst: in std_logic;
 			valid_2: in std_logic;
@@ -378,7 +380,7 @@ signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_dat
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm,wr_7 : std_logic;
 signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2a,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b,read_from_a :std_logic;
-signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4: std_logic;
+signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4,sm_active_7: std_logic;
 
  begin
 
@@ -410,10 +412,10 @@ valid_hzrd_0 <= valid_out_33 and (not beq_yes_3);
 valid_hzrd_1 <= valid_out_44 and (not beq_yes_4);
 valid_hzrd_2 <= valid_out_55 and (not beq_yes_5);
 
-pc_to_r7i <= pc_old_5 when valid_out_44 = '1' else
-			 pc_old_4 when valid_out_33 = '1' else
-			 pc_old_3 when valid_out_2 = '1' else
-			 pc_old_2;
+pc_to_r7i <= pc_old_4 when valid_out_44 = '1' else
+			 pc_old_3 when valid_out_33 = '1' else
+			 pc_old_2 when valid_out_2 = '1' else
+			 pc_old_1;
 
 
 process( clk )
@@ -426,7 +428,7 @@ begin
 end process ; 
 
 controller1: controller port map (
-
+		sm_active_7 => sm_active_7,
  		clk => clk,
  		rst => rst,
  		valid_2 => valid_out_2,
@@ -709,7 +711,7 @@ shifter1:shifter port map(
 
  stg6: stage6
 port map (
-
+	   sm_active              => sm_active_7,
 	   clk                    =>  clk,
 	   rst		              =>  rst,
 	   valid_in               =>  valid_out_55,
