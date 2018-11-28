@@ -26,9 +26,10 @@ use ieee.numeric_std.all;
 	   reg_wr1 : out std_logic;
 	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic;
-
+	   pc_to_r7i: in std_logic_vector(15 downto 0);
 	   stage6_out_hzrd : out std_logic_vector(15 downto 0);
-		pc_to_r7 : out std_logic_vector(15 downto 0)
+		pc_to_r7 : out std_logic_vector(15 downto 0);
+		wr_7 : out std_logic
      );
 		
  end entity ;
@@ -55,9 +56,9 @@ signal valid_out1 : std_logic := '0';
 signal rrf_d31 : std_logic_vector(15 downto 0);
 
  begin
-
+ wr_7 <= valid_in;
  valid_out <= valid_out1;
-pc_to_r7 <= pc_old_i;
+pc_to_r7 <= pc_to_r7i;
 reg_wr1 <= reg_wr and (((not carry_yes_i) or p_carry_i) and ((not zero_yes_i) or p_zero_i)) and valid_in; 		
 
  --reg_writing: reg_file

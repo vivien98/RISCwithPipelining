@@ -275,6 +275,7 @@ use ieee.numeric_std.all;
   component stage6 is
     
     port (
+    	pc_to_r7i : in std_logic_vector (15 downto 0);
 	   clk     : in  std_logic;
 	   rst		: in std_logic;
 	   valid_in : in std_logic;
@@ -296,6 +297,7 @@ use ieee.numeric_std.all;
 	   rrf_d3 : out std_logic_vector(15 downto 0);
 	   valid_out : out std_logic;
 	   pc_to_r7 : out std_logic_vector(15 downto 0);
+	   wr_7 : out std_logic;
 	   stage6_out_hzrd : out std_logic_vector(15 downto 0)
 		
      );
@@ -308,6 +310,7 @@ use ieee.numeric_std.all;
 	   clk        : in   std_logic;
 	   rst        : in   std_logic;
 	   wr         : in   std_logic;
+	   wr_7         : in   std_logic
 	   rf_a1      : in  std_logic_vector(2 downto 0);
 	   rf_a2      : in  std_logic_vector(2 downto 0);
 	   rf_a3      : in  std_logic_vector(2 downto 0);
@@ -352,7 +355,7 @@ use ieee.numeric_std.all;
 	end component;
 
 signal  reg_b_val_3,pc_plus_imm_1,pc_plus_imm_2,pc_plus_imm_3,ir_1,pc_old_1,pc_old_2,pc_old_3,pc_old_4,pc_old_5: std_logic_vector(15 downto 0);
-signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7,pc_to_r7 : std_logic_vector(15 downto 0);
+signal  t1_3,t2_3,t2_4,t2_5,alu_out_4,stage_5_out_5,rf_d1_3,rf_d2_3,rrf_d3_6,R7,pc_to_r7,pc_to_r7i : std_logic_vector(15 downto 0);
 
 
 signal  imm9_2,imm9_3: std_logic_vector(8 downto 0);
@@ -373,7 +376,7 @@ signal  ra_is_r7,rb_is_r7,rc_is_r7: std_logic;
 signal lm_out_2,sm_out_2,shifter_bit_0,shift_now,clk1,clk2,clk3,clk4,write_to_mem,write_to_reg,load_init_mem_addr,lm_active,sm_active,rf_wr:std_logic;
 signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_data,next_mem_addr,rf_d3,stage4_op,stage5_op,stage6_op:std_logic_vector(15 downto 0);
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
-signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm : std_logic;
+signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm,wr_7 : std_logic;
 signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2a,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b,read_from_a :std_logic;
 signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4: std_logic;
 
@@ -406,6 +409,11 @@ pc_plus_imm_1 <= pc_plus_imm_3 when (beq_yes_2 and (not xor_comp_3) and valid_ou
 valid_hzrd_0 <= valid_out_33 and (not beq_yes_3);
 valid_hzrd_1 <= valid_out_44 and (not beq_yes_4);
 valid_hzrd_2 <= valid_out_55 and (not beq_yes_5);
+
+pc_to_r7i <= pc_old_5 when valid_out_44 = '1' else
+			 pc_old_4 when valid_out_33 = '1' else
+			 pc_old_3 when valid_out_2 = '1' else
+			 pc_old_2;
 
 
 process( clk )
@@ -713,7 +721,7 @@ port map (
 
 	   reg_inp_data_ctl       =>  reg_inp_data_ctl_6_5,
 	   reg_wr                 =>  reg_wr_6_5,
-
+	   pc_to_r7i 			  =>  pc_to_r7i,
 	   stage_5_out_6          =>   stage_5_out_5,
 	   reg_a_adr_in           =>   reg_a_addr_5,
 	   pc_old_i		          =>  pc_old_5,
@@ -722,7 +730,7 @@ port map (
 	   reg_wr1                =>   reg_wr1_6,
 	   rrf_d3                 =>   rrf_d3_6,
 	   valid_out              =>   valid_out_6,
-
+	   wr_7 			  =>  wr_7,
 	   stage6_out_hzrd		  =>   stage6_op,
 	   pc_to_r7 			  => pc_to_r7
 	
@@ -735,6 +743,7 @@ port map (
 	   clk        => clk,
 	   rst        => rst,
 	   wr         => rf_wr,
+	   wr_7       => wr_7,
 	   rf_a1      => rf_a1,
 	   rf_a2      => rf_a2_3,
 	   rf_a3      => rf_a3,

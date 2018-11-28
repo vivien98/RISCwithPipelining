@@ -9,6 +9,7 @@ entity reg_file is
 	   clk        : in   std_logic;
 	   rst        : in   std_logic;
 	   wr         : in   std_logic;
+	   wr_7		  : in std_logic;
 	   rf_a1      : in  std_logic_vector(2 downto 0);
 	   rf_a2      : in  std_logic_vector(2 downto 0);
 	   rf_a3      : in  std_logic_vector(2 downto 0);
@@ -109,8 +110,10 @@ entity reg_file is
 				r7 <= Reg7;
 				when others =>  r7 <= Reg7;
 			end case;
+		elsif (wr_7 = '1') then
+			r7 <= Reg7		
 		elsif(wr = '0')then
-			r7 <= Reg7;
+			--r7 <= Reg7;
 		end if;
 	end if;
 end process writing;
