@@ -31,20 +31,25 @@ signal m12,m13,m14,m15,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others 
 --signal m3:std_logic_vector (7 downto 0) :=  "00001000";
 
 signal m0 :std_logic_vector(7 downto 0) :=  "00001010"; --sw
-signal m1 :std_logic_vector(7 downto 0) :=  "00011000";--sw
+signal m1 :std_logic_vector(7 downto 0) :=  "00111000";--sw
+
+--signal m0 :std_logic_vector (7 downto 0) := "00000100";
+--signal m1:std_logic_vector (7 downto 0) :=  "00001000";
 
 
 signal m2 :std_logic_vector(7 downto 0) :=  "01000001"; 
-signal m3 :std_logic_vector(7 downto 0) :=  "01000001";
+signal m3 :std_logic_vector(7 downto 0) :=  "11000001";
 
+--signal m2 :std_logic_vector(7 downto 0) :=  "00001010";
+--signal m3 :std_logic_vector(7 downto 0) :=  "10111000";
 --signal m4 :std_logic_vector (7 downto 0) := "10000000"; --jal
 --signal m5:std_logic_vector (7 downto 0) :=  "00001000";
 
-signal m4 :std_logic_vector (7 downto 0) := "00000010"; 
-signal m5:std_logic_vector (7 downto 0) :=  "10000000";
+signal m4 :std_logic_vector (7 downto 0) := "00000011"; 
+signal m5:std_logic_vector (7 downto 0) :=  "11000000";
 
 signal m6 :std_logic_vector(7 downto 0) :=  "00000100";
-signal m7 :std_logic_vector(7 downto 0) :=  "00001000";
+signal m7 :std_logic_vector(7 downto 0) :=  "00111000";
 
 
 signal m8 :std_logic_vector (7 downto 0) := "00000000";
