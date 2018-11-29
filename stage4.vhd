@@ -47,7 +47,10 @@ use ieee.numeric_std.all;
 
 	   valid_out : out std_logic;
 
-	   stage4_out_hzrd : out std_logic_vector(15 downto 0)
+	   stage4_out_hzrd : out std_logic_vector(15 downto 0);
+
+	   p_carry_com: out std_logic;
+	   p_zero_com:out std_logic
 		
      );
 		
@@ -95,6 +98,9 @@ imm9_app_16(15 downto 7) <= imm9;
      imm6_16 when input_alu2_ctl = "01" else 
      imm9_se_16 when input_alu2_ctl = "10" else 
      imm9_app_16 when input_alu2_ctl = "11";
+
+p_carry_com <= carry1;
+p_zero_com <= zero1;
 
  stage_out1 <= alu_out1 when output_ctrl = '0' else
  				imm9_app_16;

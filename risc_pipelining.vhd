@@ -211,7 +211,10 @@ use ieee.numeric_std.all;
 
 	   valid_out : out std_logic;
 
-	   stage4_out_hzrd : out std_logic_vector(15 downto 0)
+	   stage4_out_hzrd : out std_logic_vector(15 downto 0);
+
+	   p_carry_com: out std_logic;
+	   p_zero_com:out std_logic
 		
      );
 		
@@ -380,7 +383,7 @@ signal mem_addr_in,reg_data_in,mem_to_ctrl_data,ctrl_to_reg_data,ctrl_to_mem_dat
 signal reg_addr_out,rf_a1,rf_a3,ctrl_to_reg_addr,r_b_hzrd,r_c_hzrd,r_a_hzrd:std_logic_vector(2 downto 0);
 signal clkk_1,clkk_2,clkk_3,clkk_4,wait_for_lmsm,wr_7 : std_logic;
 signal valid_out_33,valid_out_44,valid_out_55,valid_hzrd_0,valid_hzrd_1,valid_hzrd_2,load_hzrd_out_2a,load_hzrd_out_2,load_hzrd_out_2c,load_hzrd_out_2b,read_from_a :std_logic;
-signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4,sm_active_7: std_logic;
+signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,load_lukhi4,sm_active_7,p_carry_com,p_zero_com: std_logic;
 
  begin
 
@@ -389,7 +392,7 @@ signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,l
  clkk_3 <= clk and clk3;
  clkk_4 <= clk and clk4;
 
-valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi4);
+valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi4) and (not(carry_yes_2 and (not p_carry_com) and valid_out_33)) and (not(zero_yes_2 and (not p_zero_com) and valid_out_33));
 valid_out_44 <= wait_for_lmsm and valid_out_4;
 valid_out_55 <= wait_for_lmsm and valid_out_5;
  
@@ -652,7 +655,9 @@ shifter1:shifter port map(
 
 	   valid_out                    => valid_out_4,
 
-	   stage4_out_hzrd				=> stage4_op
+	   stage4_out_hzrd				=> stage4_op,
+	   p_carry_com                  => p_carry_com,
+	   p_zero_com                   => p_zero_com
  	
  );
 
