@@ -392,7 +392,7 @@ signal jal_yes_4,jlr_yes_4,beq_yes_4,jal_yes_5,beq_yes_5,jlr_yes_5,load_lukhi3,l
  clkk_3 <= clk and clk3;
  clkk_4 <= clk and clk4;
 
-valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi4) and (not(carry_yes_2 and (not p_carry_com) and valid_out_33)) and (not(zero_yes_2 and (not p_zero_com) and valid_out_33));
+valid_out_33 <= wait_for_lmsm and valid_out_3 and (not load_lukhi4) and (not(carry_yes_3 and (not p_carry_com) and valid_out_3)) and (not(zero_yes_3 and (not p_zero_com) and valid_out_3));
 valid_out_44 <= wait_for_lmsm and valid_out_4;
 valid_out_55 <= wait_for_lmsm and valid_out_5;
  
