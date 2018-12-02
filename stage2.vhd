@@ -45,7 +45,8 @@ use ieee.numeric_std.all;
 	   load_lukhi3:in std_logic;
 	   ra_is_r7:out std_logic;
 	   rb_is_r7:out std_logic;
-	   rc_is_r7 : out std_logic
+	   rc_is_r7 : out std_logic;
+	   r7_write_yes: out std_logic
 		
      );
 		
@@ -60,7 +61,7 @@ use ieee.numeric_std.all;
   signal yin,imm6_16,imm9_se_16 : std_logic_vector(15 downto 0);
   signal r_a1,r_a2,r_a3,r_b,r_c,r_a,r_a_hzrdn,r_b_hzrdn,r_c_hzrdn,r_a_hzrdx,r_b_hzrdx,r_c_hzrdx : std_logic_vector(2 downto 0);
   signal carry1,zero1,pc_plus_imm_ctl: std_logic;
-  signal sw_yes1,lm_yes1,sm_yes1,adi_yes1,lw_yes1,beq_yes1,lhi_yes1,lw_prev1,jal_yes1,r_a_hzrd1,r_b_hzrd1,r_c_hzrd1:std_logic;
+  signal sw_yes1,lm_yes1,sm_yes1,adi_yes1,lw_yes1,beq_yes1,lhi_yes1,lw_prev1,jal_yes1,jlr_yes1,r_a_hzrd1,r_b_hzrd1,r_c_hzrd1:std_logic;
   signal valid_out1 : std_logic := '0';
 
  begin
@@ -103,6 +104,7 @@ sm_yes1 <= ((not ir(15)) and (ir(14)) and (ir(13)) and (ir(12))) and (not rst);
 beq_yes1 <= ((ir(15)) and ir(14) and (not ir(13)) and (not ir(12))) and (not rst);
 lhi_yes1 <= ((not ir(15)) and (not ir(14)) and (ir(13)) and (ir(12))) and (not rst);
 sw_yes1 <= ((not ir(15)) and (ir(14)) and (not ir(13)) and (ir(12))) and (not rst);
+jlr_yes1 <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12))) and (not rst);
 
 reg_a_addr <= r_a1;
 
@@ -129,6 +131,7 @@ r_c_hzrd <= r_c_hzrdn;
  	 ra_is_r7 <= ir(11) and ir(10) and ir(9);
  	 rb_is_r7 <= ir(8) and ir(7) and ir(6);
  	 rc_is_r7 <= ir(5) and ir(4) and ir(3);
+ 	 r7_write_yes_4 <= ir(11) and ir(10) and ir(9) and (not sm_yes1) and (not sw_yes1) and (not beq_yes1) and (not jal_yes1) and (not jlr_yes1);
 	 valid_out1 <= valid_in;
 	 r_a1 <= ir(11 downto 9);
 	 reg_b_addr <= ir(8 downto 6);
@@ -152,7 +155,7 @@ r_c_hzrd <= r_c_hzrdn;
      reg_wr_6 <= (not ir(14)) or ((not ir(15)) and(not ir(12)));
      reg_inp_data_ctl_6 <= ir(15);
      beq_yes <= beq_yes1;
-     jlr_yes <= ((ir(15)) and (not ir(14)) and (not ir(13)) and (ir(12))) and (not rst);
+     jlr_yes <= jlr_yes1;
      alu_op(1)<= ir(13);
      alu_op(0) <= ir(15);
 

@@ -21,7 +21,7 @@ use ieee.numeric_std.all;
     port (
 	   clk     : in  std_logic;
 	   rst		: in std_logic;
-	   valid_in : std_logic;
+	   valid_in : in std_logic;
 	   pc_control : in std_logic_vector(1 downto 0);
 	   reg_b_val: in std_logic_vector(15 downto 0);
 	   pc_plus_imm  : in std_logic_vector(15 downto 0);
